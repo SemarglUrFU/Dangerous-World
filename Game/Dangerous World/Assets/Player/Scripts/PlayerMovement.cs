@@ -1,4 +1,5 @@
 using System;
+using TMPro.EditorUtilities;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor.SearchService;
@@ -56,13 +57,35 @@ public class PlayerMovement : MonoBehaviour
 
     #region Grounding
     private float _lastGroundTime;
+    private float _groundAngle;
     private int _nearWall = 0;
+    private bool _wasGrounded;
+    private Vector2 _movingPlatformVelocity;
+
     private void HandleGrounding()
     {
         if (_groundSensor.IsIntersect)
         {
             _lastGroundTime = Time.time;
+            _groundAngle = Vector2.Angle(_groundSensor.IntersectHit.normal, Vector2.up);
+
+            if (_groundSensor.IntersectHit.collider.TryGetComponent<IMovingPlatform>(out var movingPlatform))
+                _movingPlatformVelocity = movingPlatform.Velocity;
+            else
+                _movingPlatformVelocity = Vector2.zero;
+
+            if (!_wasGrounded)
+            {
+                _wasGrounded = true;
+                // TODO Event
+            }
+        } 
+        else if (_wasGrounded)
+        {
+            _movingPlatformVelocity = Vector2.zero;
+            _wasGrounded = false;
         }
+
         if (_leftSensor.IsIntersect || _rightSensor.IsIntersect)
         {
             _nearWall = _leftSensor.IsIntersect ? -1 : 1;
@@ -100,30 +123,29 @@ public class PlayerMovement : MonoBehaviour
         if (_groundSensor.IsIntersect)
         {
             var groundNormal = _groundSensor.IntersectHit.normal;
-            var normalsAngle = Vector2.Angle(groundNormal, Vector2.up);
             if (direction != 0)
             {
                 var angle = Vector2.Angle(new(direction, 0), groundNormal) - 90;
                 if (angle <= _maxSurfaceAngle)
                 {
                     var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
-                    var targetXVelocity = _input.move * _walkSpeed;
-                    velocity = Vector2.MoveTowards(velocity, alongGround * targetXVelocity, _acceleration * Time.deltaTime);
+                    var targetVelocity = _input.move * _walkSpeed * alongGround + _movingPlatformVelocity;
+                    velocity = Vector2.MoveTowards(velocity, targetVelocity, _acceleration * Time.deltaTime);
                 }
             }
             else
             {
-                if (normalsAngle < _maxSurfaceAngle){
-                    velocity = Vector2.MoveTowards(velocity, Vector2.zero, _acceleration * Time.deltaTime);
-                    if (velocity.magnitude < 0.1)
+                if (_groundAngle < _maxSurfaceAngle){
+                    velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _acceleration * Time.deltaTime);
+                    if ((velocity-_movingPlatformVelocity).magnitude < 0.1)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
             }
-            if (normalsAngle > _slideSurfaceAngle && normalsAngle < _wallSurfaceAngle)
+            if (_groundAngle > _slideSurfaceAngle && _groundAngle < _wallSurfaceAngle)
             {
                 var slidingDirection = math.sign(groundNormal.x);
                 var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
-                velocity = Vector2.MoveTowards(velocity, _slideSpeed * slidingDirection * alongGround, _acceleration * Time.deltaTime);
+                velocity = Vector2.MoveTowards(velocity, _slideSpeed * slidingDirection * alongGround + _movingPlatformVelocity, _acceleration * Time.deltaTime);
             }
         }
         else
@@ -175,9 +197,16 @@ public class PlayerMovement : MonoBehaviour
         _wasReleased = false;
         if (_jumpState != JumpState.started)
         {
-            if (_jumpState == JumpState.none && _lastGroundTime + _coyoteTime > Time.time
-                && Vector2.Angle(_groundSensor.IntersectHit.normal, Vector2.up) < _slideSurfaceAngle)
+            if (_jumpState == JumpState.none && _lastGroundTime + _coyoteTime > Time.time)
             {
+                if (_groundAngle > _slideSurfaceAngle)
+                {      
+                    const float pulseVelocity = 15f;   
+                    var velocity = _rigidbody.velocity;
+                    var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * pulseVelocity;
+                    velocity.x = pulse > 0 ? Mathf.Max(velocity.x, pulse) : Mathf.Min(velocity.x, pulse);
+                    _rigidbody.velocity = velocity;
+                }
                 _jumpState = JumpState.started;
                 _jumpStartTime = Time.time;
             }
