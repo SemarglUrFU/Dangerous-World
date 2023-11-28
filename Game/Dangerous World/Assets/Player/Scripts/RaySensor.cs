@@ -24,6 +24,7 @@ public class RaySensor : Sensor
     }
 
     private void OnDrawGizmos(){
+        if (UnityEditor.Selection.activeGameObject != gameObject) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawLine(RayStart, RayEnd);
     }

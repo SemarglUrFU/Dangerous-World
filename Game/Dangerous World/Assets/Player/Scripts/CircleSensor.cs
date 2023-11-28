@@ -21,6 +21,7 @@ public class CircleSensor : Sensor
         _castDirection = _castDirection.normalized;
     }
     private void OnDrawGizmos(){
+        if (UnityEditor.Selection.activeGameObject != gameObject) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawWireSphere(transform.position + (Vector3)_castOffset, _castRadius);
         Gizmos.DrawWireSphere(transform.position + (Vector3)_castOffset + (Vector3)(_castDirection*_castDistance), _castRadius);
