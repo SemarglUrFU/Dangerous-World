@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
+public class CycleMoving : MonoBehaviour, ICycleMoving
 {
-    [SerializeField] private bool _isMoving = true;
-    [SerializeField] private float _velocity = 10f;
-    [SerializeField] private List<Vector2> _points;
-    [SerializeField] private CycleType _cycleType;
+    [SerializeField] protected bool _isMoving = true;
+    [SerializeField] protected float _velocity = 10f;
+    [SerializeField] protected List<Vector2> _points = new(){Vector2.zero};
+    [SerializeField] protected CycleType _cycleType;
 
     public bool IsMoving => _isMoving;
-    public Vector2 Velocity => _rigidbody2D.velocity;
 
-    private Rigidbody2D _rigidbody2D;
-    private Vector2 _startPosition;
-    private Vector2 _currentTarget;
-    private Vector2 _direction;
-    private enum CycleType : byte { forwardAndBackward, cycle }
-    private CycleIndex cycleIndex;
+    protected Rigidbody2D _rigidbody2D;
+    protected Vector2 _startPosition;
+    protected Vector2 _currentTarget;
+    protected Vector2 _direction;
+    protected enum CycleType : byte { forwardAndBackward, cycle }
+    protected CycleIndex cycleIndex;
 
     void Awake() {_startPosition = _rigidbody2D.position; Reset();}
 
@@ -35,7 +34,7 @@ public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
         SetTarget(_points[cycleIndex.Next]);
     }
 
-    private bool TargetReached(){
+    protected bool TargetReached(){
         var position = _rigidbody2D.position;
         if (Vector2.Angle(_direction, _currentTarget - position) < 180)
             return false;
@@ -43,13 +42,13 @@ public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
         return true;
     }
 
-    private void SetTarget(Vector2 target){
+    protected void SetTarget(Vector2 target){
         _currentTarget = _startPosition + target;
         _direction = (_currentTarget - _rigidbody2D.position).normalized;
         _rigidbody2D.velocity = _direction * _velocity;
     }
 
-    private class CycleIndex
+    protected class CycleIndex
     {
         public int Next => NextFunction();
         
@@ -80,7 +79,7 @@ public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
     }
 
 
-    private void OnValidate()
+    protected void OnValidate()
     {
         if (_points.Count == 0 || _points[0] != Vector2.zero){
             _points.Insert(0, Vector2.zero);
@@ -88,7 +87,7 @@ public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
         _rigidbody2D ??= GetComponent<Rigidbody2D>();
     }
 
-    private void OnDrawGizmos(){
+    protected void OnDrawGizmos(){
         if (UnityEditor.Selection.activeGameObject != gameObject || _points.Count == 0) return;
         
         const float radius = 1f;
@@ -105,7 +104,7 @@ public class CycleMovingPlatform : MonoBehaviour, IMovingPlatform, ICycleMoving
             Gizmos.DrawLine(GetPosition(_points[^1]), GetPosition(_points[0]));
 
         Vector3 GetPosition(Vector2 point){
-            return (Vector3)(point + (!Application.isPlaying ? transform.localPosition + transform.parent.transform.position : _startPosition));
+            return (Vector3)(point + (!Application.isPlaying ? transform.position : _startPosition));
         }
     }
 }

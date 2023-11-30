@@ -1,10 +1,10 @@
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageble
 {
     [SerializeField] PlayerMovement _playerMovement;
+    [SerializeField] private bool invulnerable = true;
     private InputActions _input;
 
     void Awake(){
@@ -19,6 +19,15 @@ public class PlayerController : MonoBehaviour
         _input.Main.Dash.started  += (ctx) => _playerMovement.SetInputDash(true);
         _input.Main.Dash.canceled += (ctx) => _playerMovement.SetInputDash(false);
         _input.Enable();
+    }
+
+    public bool Invulnerable { get => invulnerable; set => invulnerable=value; }
+
+    public bool ApplyDamage()
+    {
+        if (!Invulnerable) return false;
+        //TODO
+        return true;
     }
 
     void OnValidate(){

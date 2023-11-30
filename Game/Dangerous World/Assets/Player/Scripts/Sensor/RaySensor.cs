@@ -5,7 +5,7 @@ public class RaySensor : Sensor
     [SerializeField] private Vector2 _rayOffset;
     [SerializeField] private float _rayDistance;
     [SerializeField] private Vector2 _rayDirection;
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] private LayerMask _layerMask;
 
     public override bool IsIntersect => _intersectHit.collider;
     public override RaycastHit2D IntersectHit => _intersectHit;

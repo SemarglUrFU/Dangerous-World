@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2716664971879550951}
   - component: {fileID: 5543971962030161071}
   - component: {fileID: 7512327828170621699}
+  - component: {fileID: 6589876993134216106}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -55,7 +56,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 15
   m_Material: {fileID: 6200000, guid: bbdacfbe8295e284c80f1633bcefce7e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -115,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerMovement: {fileID: 8167409060288402724}
+  invulnerable: 1
 --- !u!114 &8167409060288402724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +133,7 @@ MonoBehaviour:
   _groundSensor: {fileID: 2716664971879550951}
   _leftSensor: {fileID: 5543971962030161071}
   _rightSensor: {fileID: 7512327828170621699}
+  _topSensor: {fileID: 6589876993134216106}
   _visualAchor: {fileID: 3735187464992484726}
   maxFriction: {fileID: 6200000, guid: d0c384a3788692e4ea4fcc77b4d712ad, type: 2}
   minFriction: {fileID: 6200000, guid: bbdacfbe8295e284c80f1633bcefce7e, type: 2}
@@ -138,17 +141,18 @@ MonoBehaviour:
   _walkSpeed: 15
   _slideSpeed: 30
   _airSpeed: 15
-  _acceleration: 100
+  _acceleration: 70
+  _decceleration: 100
   _airAcceleration: 50
   _airDeceleration: 5
   _maxSurfaceAngle: 60
   _slideSurfaceAngle: 60
-  _jumpTime: 0.3
-  _jumpVelocity: {x: 15, y: 15}
+  _jumpTime: 0.2
+  _jumpVelocity: {x: 15, y: 20}
   _jumpCutoffTime: 0.1
   _coyoteTime: 0.1
-  _extraJumps: 1
-  _dashVelocity: 30
+  _extraJumps: 0
+  _dashVelocity: 40
   _dashTime: 0.2
   _dashCooldown: 1
 --- !u!114 &2716664971879550951
@@ -205,6 +209,25 @@ MonoBehaviour:
   _castSize: {x: 0.01, y: 1}
   _castDirection: {x: 1, y: 0}
   _castDistance: 0.01
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+--- !u!114 &6589876993134216106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171879206904189731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0171bd32236b88b4abd7a824edb47554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _castOffset: {x: 0, y: 1.5}
+  _castRadius: 0.5
+  _castDirection: {x: 0, y: 1}
+  _castDistance: 0.02
   _layerMask:
     serializedVersion: 2
     m_Bits: 1

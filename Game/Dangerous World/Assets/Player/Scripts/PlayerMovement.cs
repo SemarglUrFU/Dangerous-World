@@ -1,17 +1,16 @@
 using System;
-using TMPro.EditorUtilities;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Sensor _groundSensor;
     [SerializeField] private Sensor _leftSensor;
     [SerializeField] private Sensor _rightSensor;
+    [SerializeField] private Sensor _topSensor;
+
     [SerializeField] private Transform _visualAchor;    
     [SerializeField] private PhysicsMaterial2D maxFriction;
     [SerializeField] private PhysicsMaterial2D minFriction;
@@ -103,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _slideSpeed = 5;
     [SerializeField] private float _airSpeed = 10;
     [SerializeField] private float _acceleration = 50;
+    [SerializeField] private float _decceleration = 100;
     [SerializeField] private float _airAcceleration = 20;
     [SerializeField] private float _airDeceleration = 5;
     [SerializeField][Range(1, 89)] private float _maxSurfaceAngle = 45;
@@ -136,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 if (_groundAngle < _maxSurfaceAngle){
-                    velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _acceleration * Time.deltaTime);
+                    velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
                     if ((velocity-_movingPlatformVelocity).magnitude < 0.1)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
@@ -167,27 +167,29 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _coyoteTime = 0.1f;
     [SerializeField] private int _extraJumps = 1;
 
+    public int ExtraJumpsLeft {get => _extraJumpsLeft; set => _extraJumpsLeft=value;}
+    private int _extraJumpsLeft;
+
     private enum JumpState : byte
     {
         none, started, ended
     }
-
-    private int _extraJumpsLeft;
     private JumpState _jumpState = JumpState.ended;
     private bool _wasReleased;
     private float _jumpStartTime = float.MinValue;
 
     private void HandleJump()
     {
-        if (_isDashing)
+        if (_isDashing && _jumpState != JumpState.ended)
             ForceStopJump();
+        
         if (_jumpState == JumpState.ended && _groundSensor.IsIntersect)
-        {
             JumpReset();
-        }
+
         if (_jumpState == JumpState.started)
         {
-            if (_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time))
+            if ((_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time)) || 
+                (_topSensor.IsIntersect && !_topSensor.IntersectHit.collider.TryGetComponent<PlatformEffector2D>(out var _)))
                 _jumpState = JumpState.ended;
             ContinueJump();
         }

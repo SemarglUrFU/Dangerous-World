@@ -6,7 +6,7 @@ public class BoxSensor : Sensor
     [SerializeField] private Vector2 _castSize;
     [SerializeField] private Vector2 _castDirection;
     [SerializeField] private float _castDistance;
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] private LayerMask _layerMask;
 
     public override bool IsIntersect => _intersectHit.collider;
     public override RaycastHit2D IntersectHit => _intersectHit;
