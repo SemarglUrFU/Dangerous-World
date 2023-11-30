@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5764339327774965856}
   - component: {fileID: 6472555441876440698}
   - component: {fileID: 3006449894274338600}
+  - component: {fileID: 4702727988622076431}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Untagged
@@ -144,6 +145,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &4702727988622076431
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782967178247413211}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5505bf7e7df7b654582d5577a6fc288d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4593528703422238031
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +261,7 @@ Animator:
   m_GameObject: {fileID: 4593528703422238031}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a15ccd5b3ba0ff548a14fe3d9a3fbd07, type: 2}
+  m_Controller: {fileID: 9100000, guid: e71476e8b26269d438fbc414bf6542a2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
