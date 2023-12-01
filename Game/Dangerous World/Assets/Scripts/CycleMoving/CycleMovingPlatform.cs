@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 class CycleMovingPlatform : CycleMoving, IMovingPlatform
 {
-    public Vector2 Velocity => _rigidbody2D.velocity;
+    public Vector2 Velocity { get => _delta / Time.deltaTime; }
 }

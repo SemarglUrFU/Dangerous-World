@@ -125,22 +125,26 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             var groundNormal = _groundSensor.IntersectHit.normal;
             if (direction != 0)
             {
+                // Walk
                 var angle = Vector2.Angle(new(direction, 0), groundNormal) - 90;
                 if (angle <= _maxSurfaceAngle)
                 {
                     var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
                     var targetVelocity = _input.move * _walkSpeed * alongGround + _movingPlatformVelocity;
-                    velocity = Vector2.MoveTowards(velocity, targetVelocity, _acceleration * Time.deltaTime);
+                    var acceleration = _acceleration * (1 + angle / _maxSurfaceAngle);
+                    velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
                 }
             }
             else
             {
+                // Deccelerate
                 if (_groundAngle < _maxSurfaceAngle){
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
                     if ((velocity-_movingPlatformVelocity).magnitude < 0.1)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
             }
+            // Slide
             if (_groundAngle > _slideSurfaceAngle && _groundAngle < _wallSurfaceAngle)
             {
                 var slidingDirection = math.sign(groundNormal.x);
