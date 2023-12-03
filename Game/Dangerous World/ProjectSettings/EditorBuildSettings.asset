@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/FirtsScene.unity
+    guid: 3d18d9125a5c0a749854fb6e3805a7bc
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: b3aca2c9b7a691e409342b8930ec9052
+  - enabled: 1
+    path: Assets/Scenes/Levels.unity
+    guid: 0905637221b989f4eaec678845f2546f
   m_configObjects: {}
