@@ -12,4 +12,26 @@ public class LevelConfig : ScriptableObject
     [SerializeField] private SceneAsset _scene;
     [SerializeField] private int _cost = 0;
     [SerializeField] private Sprite _preview;
+
+    [ContextMenu("Pass 1 points")]
+    private void Pass1()
+    {
+        var state = LevelRepository.GetState(Id);
+        state.Points = 1;
+        LevelRepository.WriteState(Id, state);
+    }
+
+    [ContextMenu("Pass 3 points")]
+    private void Pass3()
+    {
+        var state = LevelRepository.GetState(Id);
+        state.Points = 3;
+        LevelRepository.WriteState(Id, state);
+    }
+
+    [ContextMenu("Remove state")]
+    private void Remove()
+    {
+        LevelRepository.Remove(Id);
+    }
 }

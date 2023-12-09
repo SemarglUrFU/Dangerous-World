@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.SceneManagement;
 
 public static class LevelLoader
@@ -21,8 +22,8 @@ public static class LevelLoader
 
     public static void OnLevelPassed(int points)
     {
+        if (points < 1) throw new Exception("Passed level must has at least 1 point");
         var state = LevelRepository.GetState(Id);
-        state.Passed = true;
         state.Points = points;
         LevelRepository.WriteState(Id, state);
     }

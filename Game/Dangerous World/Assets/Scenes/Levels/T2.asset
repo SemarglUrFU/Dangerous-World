@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e51681230257584ea5961c8ac5770b2, type: 3}
-  m_Name: LevelList
+  m_Script: {fileID: 11500000, guid: 2f770b48546eb264384c0386df03ca6f, type: 3}
+  m_Name: T2
   m_EditorClassIdentifier: 
-  _levels:
-  - {fileID: 11400000, guid: 9f5c35601544e9d4f8d2334b36e7bf30, type: 2}
+  _scene: {fileID: 102900000, guid: 42554972f24a65e48a9ff3070f9bca56, type: 3}
+  _cost: 5
+  _preview: {fileID: 0}

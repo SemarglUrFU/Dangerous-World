@@ -4,13 +4,17 @@ public static class LevelRepository
 
     public static LevelState GetState(string id)
     {
-        if(Repository.TryReadValue<LevelState>($"{KEY_PREFIX}{id}", out var LevelState))
+        if(Repository.TryReadValue<LevelState>(GetKey(id), out var LevelState))
             return LevelState;
         return new();
     }
 
-    public static void WriteState(string id, LevelState LevelState)
+    public static void WriteState(string id, LevelState levelState)
     {
-        Repository.SaveValue($"{KEY_PREFIX}{id}", LevelState);
+        Repository.SaveValue(GetKey(id), levelState);
     }
+
+    public static void Remove(string id) => Repository.RemoveData(GetKey(id));
+
+    private static string GetKey(string id) => $"{KEY_PREFIX}{id}";
 }

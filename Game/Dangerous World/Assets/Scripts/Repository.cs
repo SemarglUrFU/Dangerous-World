@@ -5,7 +5,7 @@ public static class Repository
 {   
     public static void SaveValue<T>(string key, T value) where T : class
     {
-        var serializedData = JsonConvert.ToString(value);
+        var serializedData = JsonConvert.SerializeObject(value);
         PlayerPrefs.SetString(key, serializedData);
         PlayerPrefs.Save();
     }
@@ -28,6 +28,7 @@ public static class Repository
         PlayerPrefs.Save();
     }
 
+    public static int ReadInt(string key) => PlayerPrefs.GetInt(key, 0);
     public static bool TryReadValue(string key, out int value)
     {
         if (!PlayerPrefs.HasKey(key))
@@ -45,6 +46,7 @@ public static class Repository
         PlayerPrefs.Save();
     }
 
+    public static string ReadString(string key) => PlayerPrefs.GetString(key, "");
     public static bool TryReadValue(string key, out string value)
     {
         if (!PlayerPrefs.HasKey(key))
