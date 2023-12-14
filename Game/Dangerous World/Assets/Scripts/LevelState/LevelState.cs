@@ -2,7 +2,7 @@ using System;
 
 public class LevelState
 {
-    public bool Passed{get => _points > 0;}
+    public bool Passed{get => _passed; set => _passed = value;}
     public int Points{
         get => _points;
         set {
@@ -11,5 +11,7 @@ public class LevelState
             _points = value;
         }
     }
+
     private int _points = 0;
+    private bool _passed = false;
 }

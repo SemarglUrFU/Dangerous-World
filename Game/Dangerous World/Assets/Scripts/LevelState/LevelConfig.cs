@@ -13,10 +13,20 @@ public class LevelConfig : ScriptableObject
     [SerializeField] private int _cost = 0;
     [SerializeField] private Sprite _preview;
 
+    [ContextMenu("Pass")]
+    private void Pass0()
+    {
+        var state = LevelRepository.GetState(Id);
+        state.Passed = true;
+        state.Points = 0;
+        LevelRepository.WriteState(Id, state);
+    }
+
     [ContextMenu("Pass 1 points")]
     private void Pass1()
     {
         var state = LevelRepository.GetState(Id);
+        state.Passed = true;
         state.Points = 1;
         LevelRepository.WriteState(Id, state);
     }
@@ -25,6 +35,7 @@ public class LevelConfig : ScriptableObject
     private void Pass3()
     {
         var state = LevelRepository.GetState(Id);
+        state.Passed = true;
         state.Points = 3;
         LevelRepository.WriteState(Id, state);
     }

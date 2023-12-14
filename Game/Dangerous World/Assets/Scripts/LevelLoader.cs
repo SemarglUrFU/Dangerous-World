@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.SceneManagement;
 
 public static class LevelLoader
 {
@@ -12,19 +11,22 @@ public static class LevelLoader
     public static void LoadLevel(LevelIngameState levelIngameState)
     {
         _levelIngameState = levelIngameState;
-        SceneManager.LoadScene(levelIngameState._levelConfig.Scene);
+        SceneLoader.Load(_levelIngameState._levelConfig.Scene, SceneLoader.UseTransition.Both, true);
+        SceneLoader.OnSceneExit += LevelExit;
     }
 
-    public static void OnLevelExit()
+    public static void LevelPassed(int points)
     {
-        _levelIngameState = null;
-    }
-
-    public static void OnLevelPassed(int points)
-    {
-        if (points < 1) throw new Exception("Passed level must has at least 1 point");
+        // TODO: Move to another class
         var state = LevelRepository.GetState(Id);
+        state.Passed = true;
         state.Points = points;
         LevelRepository.WriteState(Id, state);
+    }
+
+    private static void LevelExit()
+    {
+        SceneLoader.OnSceneExit -= LevelExit;
+        _levelIngameState = null;
     }
 }

@@ -1,14 +1,17 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Bootstrap : MonoBehaviour
 {
-    [SerializeField] private SceneAsset _scene;
+    [SerializeField] private SceneAsset _loadScene;
+    [SerializeField] private SceneAsset _loader;
+    [SerializeField] private GameObject _sceneTransition;
 
     void Start()
     {
-        // ? This may come in handy later
-        SceneManager.LoadScene(_scene.name);
+        DontDestroyOnLoad(_sceneTransition);
+        SceneLoader.BindLoadScreen(_loader.name);
+        SceneLoader.BindTransition(_sceneTransition.GetComponent<ISceneTransition>());
+        SceneLoader.Load(_loadScene.name, SceneLoader.UseTransition.Out, true);
     }
 }

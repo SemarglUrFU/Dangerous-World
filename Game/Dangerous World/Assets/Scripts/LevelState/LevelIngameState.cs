@@ -5,6 +5,7 @@ public class LevelIngameState
     public readonly LevelState _levelState;
     public readonly LevelConfig _levelConfig;
 
+
     public LevelIngameState(LevelConfigList configList, int configListIndex, LevelConfig levelConfig = null, LevelState levelState = null)
     {
         levelConfig ??= configList.Levels[configListIndex];
