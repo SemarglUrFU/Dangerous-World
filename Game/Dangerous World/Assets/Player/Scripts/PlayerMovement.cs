@@ -1,17 +1,24 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
+    [SerializeField] UnityEvent _onGrounded;
+    [SerializeField] UnityEvent _onJump;
+    [SerializeField] UnityEvent _onWallJump;
+    [SerializeField] UnityEvent _onExtraJump;
+    [SerializeField] UnityEvent _onDash;
+
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Sensor _groundSensor;
     [SerializeField] private Sensor _leftSensor;
     [SerializeField] private Sensor _rightSensor;
     [SerializeField] private Sensor _topSensor;
 
-    [SerializeField] private Transform _visualAchor;    
+    [SerializeField] private Transform _visualAchor;
     [SerializeField] private PhysicsMaterial2D maxFriction;
     [SerializeField] private PhysicsMaterial2D minFriction;
 
@@ -31,6 +38,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         HandleMove();
         HandleJump();
         HandleDashing();
+        // TODO HandheVertiacalEvent();
     }
 
     #region Rotation
@@ -76,9 +84,9 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (!_wasGrounded)
             {
                 _wasGrounded = true;
-                // TODO Event
+                _onGrounded.Invoke();
             }
-        } 
+        }
         else if (_wasGrounded)
         {
             _movingPlatformVelocity = Vector2.zero;
@@ -138,9 +146,10 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             else
             {
                 // Deccelerate
-                if (_groundAngle < _maxSurfaceAngle){
+                if (_groundAngle < _maxSurfaceAngle)
+                {
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
-                    if ((velocity-_movingPlatformVelocity).magnitude < 0.1)
+                    if ((velocity - _movingPlatformVelocity).magnitude < 0.1)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
             }
@@ -171,7 +180,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] private float _coyoteTime = 0.1f;
     [SerializeField] private int _extraJumps = 1;
 
-    public int ExtraJumpsLeft {get => _extraJumpsLeft; set => _extraJumpsLeft=value;}
+    public int ExtraJumpsLeft { get => _extraJumpsLeft; set => _extraJumpsLeft = value; }
     private int _extraJumpsLeft;
 
     private enum JumpState : byte
@@ -186,15 +195,15 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     {
         if (_isDashing && _jumpState != JumpState.ended)
             ForceStopJump();
-        
+
         if (_jumpState == JumpState.ended && _groundSensor.IsIntersect)
             JumpReset();
 
         if (_jumpState == JumpState.started)
         {
-            if ((_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time)) || 
+            if ((_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time)) ||
                 (_topSensor.IsIntersect && !_topSensor.IntersectHit.collider.TryGetComponent<PlatformEffector2D>(out var _)))
-                _jumpState = JumpState.ended;
+            { _jumpState = JumpState.ended; }
             ContinueJump();
         }
     }
@@ -206,8 +215,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (_jumpState == JumpState.none && _lastGroundTime + _coyoteTime > Time.time)
             {
                 if (_groundAngle > _slideSurfaceAngle)
-                {      
-                    const float pulseVelocity = 15f;   
+                {
+                    const float pulseVelocity = 15f;
                     var velocity = _rigidbody.velocity;
                     var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * pulseVelocity;
                     velocity.x = pulse > 0 ? Mathf.Max(velocity.x, pulse) : Mathf.Min(velocity.x, pulse);
@@ -215,8 +224,10 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 }
                 _jumpState = JumpState.started;
                 _jumpStartTime = Time.time;
+                _onJump.Invoke();
             }
-            else if (_nearWall != 0){
+            else if (_nearWall != 0)
+            {
                 JumpReset();
                 _jumpState = JumpState.started;
                 _jumpStartTime = Time.time;
@@ -225,17 +236,19 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 _rigidbody.velocity = velocity;
                 _wallJumpLockUntil = Time.time + _jumpCutoffTime;
                 _facingRight = GetRotationByDirection(-_nearWall);
+                _onWallJump.Invoke();
             }
             else if (_extraJumpsLeft > 0)
             {
                 var inputDirection = math.sign(_input.move);
                 var rigidbodyVelocity = _rigidbody.velocity;
                 if (inputDirection != 0)
-                    _rigidbody.velocity = new(_jumpVelocity.x*inputDirection, rigidbodyVelocity.y);
+                    _rigidbody.velocity = new(_jumpVelocity.x * inputDirection, rigidbodyVelocity.y);
 
                 _extraJumpsLeft--;
                 _jumpState = JumpState.started;
                 _jumpStartTime = Time.time;
+                _onExtraJump.Invoke();
             }
         }
     }
@@ -274,11 +287,10 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     private float _dashStartTime = float.MinValue;
     private float _dashEndTime = float.MinValue;
     private int _dashDirection;
-    
+
     private void HandleDashing()
     {
-        if (_isDashing)
-            ContinueDash();
+        if (_isDashing) { ContinueDash(); }
     }
     private void StartDash()
     {
@@ -291,20 +303,21 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         _rigidbody.sharedMaterial = minFriction;
         _facingRight = GetRotationByDirection(_dashDirection);
         _isDashing = true;
+        _onDash.Invoke();
     }
     private void StopDash()
     {
-        _rigidbody.velocity = new Vector2(_dashDirection*_airSpeed, 0);
+        _rigidbody.velocity = new Vector2(_dashDirection * _airSpeed, 0);
         _rigidbody.gravityScale = _defaultGravityScale;
         _dashEndTime = Time.time;
         _isDashing = false;
     }
     private void ContinueDash()
     {
-        if (_dashStartTime+_dashTime < Time.time || _nearWall == _dashDirection)
+        if (_dashStartTime + _dashTime < Time.time || _nearWall == _dashDirection)
         {
             StopDash(); return;
-        } 
+        }
         _rigidbody.velocity = new Vector2(_dashDirection * _dashVelocity, 0);
     }
     #endregion Dashing
@@ -319,24 +332,14 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     public void SetInputJump(bool value)
     {
         _input.jump = value;
-        if (value)
-        {
-            StartJump();
-        }
-        else
-        {
-            StopJump();
-        }
-
+        if (value) { StartJump(); }
+        else { StopJump(); }
     }
 
     public void SetInputDash(bool value)
     {
         _input.dash = value;
-        if (value)
-        {
-            StartDash();
-        }
+        if (value) { StartDash(); }
     }
 
     private class Input
@@ -351,6 +354,6 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     private void OnValidate()
     {
         _rigidbody ??= GetComponent<Rigidbody2D>();
-        if (_maxSurfaceAngle > _slideSurfaceAngle) _slideSurfaceAngle = _maxSurfaceAngle;
+        if (_maxSurfaceAngle > _slideSurfaceAngle) { _slideSurfaceAngle = _maxSurfaceAngle; }
     }
 }

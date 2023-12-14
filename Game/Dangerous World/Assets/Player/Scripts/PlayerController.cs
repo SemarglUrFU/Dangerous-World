@@ -1,36 +1,35 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
-public class PlayerController : MonoBehaviour, IDamageble
+public class PlayerInput : MonoBehaviour
 {
     [SerializeField] PlayerMovement _playerMovement;
-    [SerializeField] private bool invulnerable = true;
     private InputActions _input;
 
-    void Awake(){
+    private void Awake(){
         _input = new();
     }
 
-    void Start(){
+    private void Start(){
         _input.Main.Move.started  += (ctx) => _playerMovement.InputMove(ctx.ReadValue<float>());
         _input.Main.Move.canceled += (ctx) => _playerMovement.InputMove(0f);
         _input.Main.Jump.started  += (ctx) => _playerMovement.SetInputJump(true);
         _input.Main.Jump.canceled += (ctx) => _playerMovement.SetInputJump(false);
         _input.Main.Dash.started  += (ctx) => _playerMovement.SetInputDash(true);
         _input.Main.Dash.canceled += (ctx) => _playerMovement.SetInputDash(false);
+    }
+
+    private void OnEnable()
+    {
         _input.Enable();
     }
 
-    public bool Invulnerable { get => invulnerable; set => invulnerable=value; }
-
-    public bool ApplyDamage()
+    private void OnDisable()
     {
-        if (!Invulnerable) return false;
-        //TODO
-        return true;
+        _input.Main.Disable();
     }
 
-    void OnValidate(){
+    private void OnValidate(){
         _playerMovement ??= GetComponent<PlayerMovement>();
     }
 }

@@ -14,7 +14,6 @@ public static class Prefs
         Repository.SaveValue(KEY_POINTS, points);
     }
 
-
     public static int SelectedLevel
     {
         get => Repository.ReadInt(SELECTED_LEVEL_KEY);

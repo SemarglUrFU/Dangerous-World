@@ -11,14 +11,8 @@ public class CheckPoint : MonoBehaviour, ICheckPoint
 
     public void UpdateStatus(bool isActive)
     {
-        if (isActive)
-        {
-            OnActivate.Invoke();
-        }
-        else
-        {
-            OnDeactivate.Invoke();
-        }
+        if (isActive) {OnActivate.Invoke();}
+        else {OnDeactivate.Invoke();}
     }
 
     void OnTriggerEnter2D(Collider2D other)
