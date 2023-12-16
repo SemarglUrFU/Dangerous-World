@@ -13,9 +13,11 @@ public class CheckPointObserver : MonoBehaviour, ICheckPointObserver
 
     public void UpdateActiveCheckpoint(ICheckPoint checkPoint)
     {
-        if (checkPoint == _activeCheckpoint) return;
-        _activeCheckpoint?.UpdateStatus(false);
-        _activeCheckpoint = checkPoint;
+        if (checkPoint != _activeCheckpoint) 
+        {
+            _activeCheckpoint?.UpdateStatus(false);
+            _activeCheckpoint = checkPoint;
+        };
         checkPoint.UpdateStatus(true);
         _onNewCheckPoint.Invoke();
     }

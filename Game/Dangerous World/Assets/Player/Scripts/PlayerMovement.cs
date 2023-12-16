@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 if (_groundAngle < _maxSurfaceAngle)
                 {
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
-                    if ((velocity - _movingPlatformVelocity).magnitude < 0.1)
+                    if ((velocity - _movingPlatformVelocity).magnitude < 0.05)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
             }
