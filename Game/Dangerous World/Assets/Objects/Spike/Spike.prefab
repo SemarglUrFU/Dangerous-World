@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5312919637250590164}
   - component: {fileID: 701589657641026056}
   - component: {fileID: 189908936688434894}
-  - component: {fileID: 2003442225094340901}
+  - component: {fileID: 3861194198037488179}
   m_Layer: 0
   m_Name: Spike
   m_TagString: Untagged
@@ -75,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e793aa161320e0d49a3a5634343c0801, type: 3}
+  m_Sprite: {fileID: 830657328, guid: e0d13ea0d2184a9458450e982d969c3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 5, y: 1}
+  m_Size: {x: 3, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 1
   m_WasSpriteAssigned: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 845803af4ec8bf74c93ea350a2ea76cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider2D: {fileID: 2003442225094340901}
+  _collider2D: {fileID: 3861194198037488179}
   _OnDamageApply:
     m_PersistentCalls:
       m_Calls:
@@ -107,14 +107,14 @@ MonoBehaviour:
         m_MethodName: set_sprite
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 21300000, guid: 33e1e74f4fe906e42bf0c54c9a75868d, type: 3}
+          m_ObjectArgument: {fileID: -2129825507, guid: e0d13ea0d2184a9458450e982d969c3c, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!60 &2003442225094340901
+--- !u!60 &3861194198037488179
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,14 +151,14 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 5, y: 1}
+    newSize: {x: 3, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 1
   m_AutoTiling: 1
   m_Points:
     m_Paths:
-    - - {x: 0, y: 0.5}
-      - {x: -0.5, y: -0.5}
+    - - {x: -0.5, y: -0.5}
       - {x: 0.5, y: -0.5}
+      - {x: 0, y: 0.5}
   m_UseDelaunayMesh: 0

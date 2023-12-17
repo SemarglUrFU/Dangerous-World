@@ -172,7 +172,7 @@ MonoBehaviour:
   _slideSpeed: 30
   _airSpeed: 15
   _acceleration: 100
-  _decceleration: 250
+  _decceleration: 300
   _airAcceleration: 100
   _airDeceleration: 10
   _maxSurfaceAngle: 60
