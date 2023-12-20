@@ -18,5 +18,8 @@ public class LevelBootstrap : MonoBehaviour
         coinsCollector.OnRemove += coinsCounter.Remove;
 
         _inGameUI.Initialize(lifeCounter, coinsCounter);
+
+
+        
     }
 }

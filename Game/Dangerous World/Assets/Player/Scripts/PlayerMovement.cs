@@ -77,9 +77,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             _groundAngle = Vector2.Angle(_groundSensor.IntersectHit.normal, Vector2.up);
 
             if (_groundSensor.IntersectHit.collider.TryGetComponent<IMovingPlatform>(out var movingPlatform))
-                _movingPlatformVelocity = movingPlatform.Velocity;
-            else
-                _movingPlatformVelocity = Vector2.zero;
+            { _movingPlatformVelocity = movingPlatform.Velocity; }
+            else { _movingPlatformVelocity = Vector2.zero; }
 
             if (!_wasGrounded)
             {
@@ -146,7 +145,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             else
             {
                 // Deccelerate
-                if (_groundAngle < _maxSurfaceAngle)
+                if (_groundAngle < _maxSurfaceAngle && !_groundSensor.IntersectHit.collider.TryGetComponent<SurfaceEffector2D>(out var _))
                 {
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
                     if ((velocity - _movingPlatformVelocity).magnitude < 0.05)
