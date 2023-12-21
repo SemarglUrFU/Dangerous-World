@@ -48,7 +48,10 @@ public class LifesUI : MonoBehaviour
     {
         _gridLayout ??= GetComponent<GridLayoutGroup>();
     }
+
+#if UNITY_EDITOR
     [ContextMenu("ReInitialize")] private void __ReInitialize() {Initialize(0); Initialize(_lifeCountDefault);}
     [ContextMenu("Spend")] private void __Spend() => Spend();
     [ContextMenu("Add")] private void __Add() => Add();
+#endif
 }

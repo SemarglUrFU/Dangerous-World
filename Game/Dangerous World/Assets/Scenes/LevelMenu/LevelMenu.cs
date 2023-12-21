@@ -32,14 +32,13 @@ public class LevelMenu : MonoBehaviour
 
     public void TrySelectLevel(int index)
     {
-        index = Math.Clamp(index, 0, _levelConfigList.Count-1);
+        index = Math.Clamp(index, 0, _levelConfigList.Count - 1);
         SelectLevel(index);
     }
 
     public void TryLoadSelectedLevel()
     {
-        if (!IsLevelUnlocked(_selectedLevel))
-            return;
+        if (!IsLevelUnlocked(_selectedLevel)) { return; }
         LoadLevel(_selectedLevel);
     }
 
@@ -63,20 +62,20 @@ public class LevelMenu : MonoBehaviour
         var (next, prev) = (true, true);
         _nextButton.gameObject.SetActive(next);
         if (index == 0) prev = false;
-        if (index == _levelConfigList.Count-1) next = false;
+        if (index == _levelConfigList.Count - 1) next = false;
         _nextButton.gameObject.SetActive(next);
         _prevButton.gameObject.SetActive(prev);
     }
 
     private bool IsPreviousLevelPassed(int index)
     {
-        return (index == 0)|| LevelRepository.GetState(_levelConfigList.Levels[index-1].Id).Passed;
+        return (index == 0) || LevelRepository.GetState(_levelConfigList.Levels[index - 1].Id).Passed;
     }
 
     private bool IsLevelUnlocked(int index)
     {
         var levelConfig = _levelConfigList.Levels[index];
-        return IsPreviousLevelPassed(index) 
+        return IsPreviousLevelPassed(index)
             && (levelConfig.Cost == 0 || Prefs.Points >= levelConfig.Cost);
     }
 }

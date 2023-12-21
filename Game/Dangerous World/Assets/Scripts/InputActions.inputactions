@@ -116,7 +116,7 @@
             "id": "f070fcaa-66a4-412a-b419-0f9ed04d48ec",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Close",
                     "type": "Button",
                     "id": "888160bc-3e7e-42cf-8eb8-87071f3c723b",
                     "expectedControlType": "Button",
@@ -129,11 +129,11 @@
                 {
                     "name": "",
                     "id": "448294fe-c264-4c27-bb0c-9135acc0cdff",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Close",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

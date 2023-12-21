@@ -14,7 +14,7 @@ class FadeTransition : MonoBehaviour, ISceneTransition
     private const string _nameOut = "outTrigger";
 
     public void Hide() { _canvas.enabled = false; }
-    public void PlayIn() { Play(_nameIn); }
+    public void PlayIn() { _onCurrentAnimationEnded.RemoveListener(Hide); Play(_nameIn); }
     public void PlayOut() { Play(_nameOut); _onCurrentAnimationEnded.AddListener(Hide); }
 
     public void OnAnimationEnded()
@@ -31,7 +31,7 @@ class FadeTransition : MonoBehaviour, ISceneTransition
 
     private void OnValidate()
     {
-        _canvas ??= GetComponent<Canvas>();
-        _animator ??= GetComponent<Animator>();
+        if (_canvas == null) _canvas = GetComponent<Canvas>();
+        if (_animator == null) _animator = GetComponent<Animator>();
     }
 }
