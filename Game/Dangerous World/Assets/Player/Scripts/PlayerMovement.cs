@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
     [SerializeField] UnityEvent _onGrounded;
+    [SerializeField] UnityEvent<float> _onRotate;
     [SerializeField] UnityEvent<int> _onVerticalDirectionChange;
     [SerializeField] UnityEvent<float> _onMoving;
     [SerializeField] UnityEvent<bool> _onJump;
@@ -73,6 +74,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     {
         if (_groundSensor.IsIntersect)
         {
+            
             _lastGroundTime = Time.time;
             _groundAngle = Vector2.Angle(_groundSensor.IntersectHit.normal, Vector2.up);
 
@@ -87,6 +89,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 _verticalDirection = 0;
                 _onVerticalDirectionChange.Invoke(0);
             }
+            var angle = Vector2.SignedAngle(Vector2.up, _groundSensor.IntersectHit.normal);
+            _onRotate.Invoke(Math.Clamp(angle, -_maxSurfaceAngle, _maxSurfaceAngle));
         }
         else
         {
@@ -99,6 +103,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
             if (_wasGrounded)
             {
+                _onRotate.Invoke(0f);
                 _movingPlatformVelocity = Vector2.zero;
                 _wasGrounded = false;
             }
