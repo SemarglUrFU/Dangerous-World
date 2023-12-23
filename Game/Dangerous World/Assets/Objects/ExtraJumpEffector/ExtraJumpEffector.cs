@@ -1,8 +1,8 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 public class ExtraJumpEffector : MonoBehaviour
 {
     [SerializeField] private int _addJumps = 1;

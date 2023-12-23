@@ -18,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void OnValidate()
     {
-        _animator ??= GetComponent<Animator>();
+        _animator = _animator != null ? _animator : GetComponentInChildren<Animator>();
+        _anchor = _anchor != null ? _anchor : transform;
     }
 }

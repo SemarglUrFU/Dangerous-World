@@ -133,6 +133,7 @@ MonoBehaviour:
   OnTriggered:
     m_PersistentCalls:
       m_Calls: []
+  _collider: {fileID: 811351444041061528}
 --- !u!61 &811351444041061528
 BoxCollider2D:
   m_ObjectHideFlags: 0

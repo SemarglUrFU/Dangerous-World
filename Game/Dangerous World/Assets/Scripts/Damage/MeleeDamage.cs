@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 public class MeleeDamage : MonoBehaviour
 {
     [SerializeField] private Collider2D _collider2D;

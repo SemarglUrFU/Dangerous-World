@@ -6,6 +6,8 @@ public class RaySensor : Sensor
     [SerializeField] private float _rayDistance;
     [SerializeField] private Vector2 _rayDirection;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private bool _followRotation;
+
 
     public override bool IsIntersect => _intersectHit.collider;
     public override RaycastHit2D IntersectHit => _intersectHit;
@@ -16,7 +18,10 @@ public class RaySensor : Sensor
 
     private void FixedUpdate()
     {
-        _intersectHit = Physics2D.Raycast(RayStart, _rayDirection, _rayDistance, _layerMask);
+        var (origin, direction) = _followRotation
+            ? ((Vector2)transform.position + Rotate(_rayOffset, transform.rotation.z * 2), Rotate(_rayDirection, transform.rotation.z * 2))
+            : ((Vector2)transform.position + _rayOffset, _rayDirection);
+        _intersectHit = Physics2D.Raycast(origin, direction, _rayDistance, _layerMask);
     }
 
     private void OnValidate(){
@@ -24,7 +29,7 @@ public class RaySensor : Sensor
     }
 
     private void OnDrawGizmos(){
-        if (UnityEditor.Selection.activeGameObject != gameObject) return;
+        if (UnityEditor.Selection.activeGameObject != gameObject || !enabled) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawLine(RayStart, RayEnd);
     }

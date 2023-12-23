@@ -14,10 +14,11 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] UnityEvent<bool> _onDash;
 
     [SerializeField] private Rigidbody2D _rigidbody;
-    [SerializeField] private Sensor _groundSensor;
+    [SerializeField] private Sensor _topSensor;
     [SerializeField] private Sensor _leftSensor;
     [SerializeField] private Sensor _rightSensor;
-    [SerializeField] private Sensor _topSensor;
+    [SerializeField] private Sensor _groundSensor;
+    [SerializeField] private Sensor _centerGroundSensor;
 
     [SerializeField] private Transform _visualAchor;
     [SerializeField] private PhysicsMaterial2D maxFriction;
@@ -63,18 +64,20 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     #endregion Rotation
 
     #region Grounding
+    [Header("Grounding")]
+    [SerializeField][Range(1f, 90f)] private float _maxRotationSpeed;
     private float _lastGroundTime;
     private float _groundAngle;
     private int _nearWall = 0;
     private bool _wasGrounded;
     private Vector2 _movingPlatformVelocity;
     private int _verticalDirection;
+    private float _previousAngle;
 
     private void HandleGrounding()
     {
         if (_groundSensor.IsIntersect)
         {
-            
             _lastGroundTime = Time.time;
             _groundAngle = Vector2.Angle(_groundSensor.IntersectHit.normal, Vector2.up);
 
@@ -89,8 +92,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 _verticalDirection = 0;
                 _onVerticalDirectionChange.Invoke(0);
             }
-            var angle = Vector2.SignedAngle(Vector2.up, _groundSensor.IntersectHit.normal);
-            _onRotate.Invoke(Math.Clamp(angle, -_maxSurfaceAngle, _maxSurfaceAngle));
+            var normal = _centerGroundSensor.IsIntersect ? _centerGroundSensor.IntersectHit.normal : _groundSensor.IntersectHit.normal;
+            SmoothRotate(Vector2.SignedAngle(Vector2.up, normal));
         }
         else
         {
@@ -103,9 +106,13 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
             if (_wasGrounded)
             {
-                _onRotate.Invoke(0f);
+                SmoothRotate(0);
                 _movingPlatformVelocity = Vector2.zero;
                 _wasGrounded = false;
+            }
+            else if (_previousAngle != 0)
+            {
+                SmoothRotate(0);
             }
         }
 
@@ -117,6 +124,14 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         {
             _nearWall = 0;
         }
+
+        void SmoothRotate(float angle)
+        {
+            angle = Math.Clamp(angle, -_maxSurfaceAngle, _maxSurfaceAngle);
+            angle = Mathf.MoveTowards(_previousAngle, angle, _maxRotationSpeed);
+            _onRotate.Invoke(angle);
+            _previousAngle = angle;
+        }
     }
     #endregion Grounding
 
@@ -127,6 +142,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] private float _airSpeed = 10;
     [SerializeField] private float _acceleration = 50;
     [SerializeField] private float _decceleration = 100;
+    [SerializeField][Range(0f, max: 1f)] private float _stopVelocityCutOut = 0.05f;
     [SerializeField] private float _airAcceleration = 20;
     [SerializeField] private float _airDeceleration = 5;
     [SerializeField][Range(1, 89)] private float _maxSurfaceAngle = 45;
@@ -165,7 +181,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 if (_groundAngle < _maxSurfaceAngle && !_groundSensor.IntersectHit.collider.TryGetComponent<SurfaceEffector2D>(out var _))
                 {
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
-                    if ((velocity - _movingPlatformVelocity).magnitude < 0.05)
+                    if ((velocity - _movingPlatformVelocity).magnitude < _stopVelocityCutOut)
                         _rigidbody.sharedMaterial = maxFriction;
                 }
             }
@@ -186,6 +202,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         }
         _onMoving.Invoke(velocity.x - _movingPlatformVelocity.x);
         _rigidbody.velocity = velocity;
+        _onMoving.Invoke(velocity.x);
     }
     #endregion Walking
 
@@ -220,7 +237,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         {
             if ((_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time)) ||
                 (_topSensor.IsIntersect && !_topSensor.IntersectHit.collider.TryGetComponent<PlatformEffector2D>(out var _)))
-            { _jumpState = JumpState.ended; _onJump.Invoke(false);}
+            { _jumpState = JumpState.ended; _onJump.Invoke(false); }
             ContinueJump();
         }
     }

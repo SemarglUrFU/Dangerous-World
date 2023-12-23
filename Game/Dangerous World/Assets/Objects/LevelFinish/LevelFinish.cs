@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 [RequireComponent(typeof(Collider2D))]
 public class LevelFinish : MonoBehaviour
 {

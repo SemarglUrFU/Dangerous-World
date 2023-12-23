@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(ResetOnPlayerDeath))]
 public class FrageilePlatform : MonoBehaviour

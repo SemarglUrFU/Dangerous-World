@@ -1,6 +1,7 @@
 using UnityEngine;
 
+[SelectionBase]
 class CycleMovingPlatform : CycleMoving, IMovingPlatform
 {
-    public Vector2 Velocity { get => _delta / Time.deltaTime; }
+    public Vector2 Velocity => _delta / Time.deltaTime; 
 }

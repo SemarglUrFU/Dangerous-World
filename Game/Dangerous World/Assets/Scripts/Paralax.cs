@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cinemachine;
 using UnityEngine;
 
+[SelectionBase]
 public class Paralax : MonoBehaviour
 {
     [SerializeField] private Transform follow;

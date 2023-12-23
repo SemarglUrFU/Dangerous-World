@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4951121181125521333, guid: 553aec54f6367114e91e9bc0ab4d8a67, type: 3}
       propertyPath: m_Name
-      value: Saw Variant
+      value: Saw Moving
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isMoving: 1
   _velocity: 10
+  _acceleration: 0
   _points:
   - {x: 0, y: 0}
   - {x: 10, y: 0}

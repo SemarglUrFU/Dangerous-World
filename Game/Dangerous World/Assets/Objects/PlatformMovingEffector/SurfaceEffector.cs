@@ -1,13 +1,14 @@
 using UnityEngine;
 
+[SelectionBase]
 public class PlatformEffector : MonoBehaviour
 {
     [SerializeField] private bool _flip;
 
     private void OnValidate()
     {
-        var _surfaceEffector = GetComponent<SurfaceEffector2D>();
-        var _spriteRenderer = GetComponent<SpriteRenderer>();
+        var _surfaceEffector = GetComponentInChildren<SurfaceEffector2D>();
+        var _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         var speed = _surfaceEffector.speed;
         if (_flip)

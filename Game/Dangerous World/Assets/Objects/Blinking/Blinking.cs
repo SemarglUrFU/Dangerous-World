@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+[SelectionBase]
 public class Blinking : MonoBehaviour
 {
     [SerializeField] private List<UnityEvent> _phaseEvent = new(0);
