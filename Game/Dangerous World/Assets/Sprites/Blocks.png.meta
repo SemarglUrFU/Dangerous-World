@@ -144,18 +144,24 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blocks_1
+      name: Pipe
       rect:
         serializedVersion: 2
         x: 128
         y: 640
         width: 128
         height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 40, y: 50, z: 40, w: 28}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -55, y: 64}
+        - {x: -55, y: 36}
+        - {x: -44, y: -34}
+        - {x: 45, y: -34}
+        - {x: 55, y: 36}
+        - {x: 55, y: 64}
       tessellationDetail: 0
       bones: []
       spriteID: c25d4aa0d85f3f94f84edab52f49ea5b
@@ -1147,7 +1153,6 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Blocks_0: -309963940
-      Blocks_1: -460062280
       Blocks_10: 311374847
       Blocks_11: 789179120
       Blocks_12: 15369025
@@ -1192,6 +1197,7 @@ TextureImporter:
       Blocks_7: -2113358380
       Blocks_8: -1567420161
       Blocks_9: -1081691346
+      Pipe: -460062280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
