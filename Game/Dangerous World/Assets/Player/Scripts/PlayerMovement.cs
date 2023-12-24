@@ -154,7 +154,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     {
         if (_isDashing || _wallJumpLockUntil > Time.time) return;
 
-        var direction = math.sign(_input.move);
+        var direction = Math.Sign(_input.move);
         var velocity = _rigidbody.velocity;
 
         _facingRight = GetRotationByDirection(direction);
@@ -171,7 +171,9 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 {
                     var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
                     var targetVelocity = _input.move * _walkSpeed * alongGround + _movingPlatformVelocity;
-                    var acceleration = _acceleration * (1 + angle / _maxSurfaceAngle);
+                    var currentDirection = Math.Sign(velocity.x - _movingPlatformVelocity.x);
+                    var acceleration = (currentDirection != 0 && (direction != currentDirection) 
+                        ? _decceleration : _acceleration) * (1 + angle / _maxSurfaceAngle);
                     velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
                 }
             }

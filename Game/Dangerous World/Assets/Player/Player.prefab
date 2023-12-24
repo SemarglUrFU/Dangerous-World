@@ -297,7 +297,7 @@ MonoBehaviour:
   _slideSpeed: 30
   _airSpeed: 15
   _acceleration: 100
-  _decceleration: 100
+  _decceleration: 200
   _stopVelocityCutOut: 0.2
   _airAcceleration: 100
   _airDeceleration: 10
