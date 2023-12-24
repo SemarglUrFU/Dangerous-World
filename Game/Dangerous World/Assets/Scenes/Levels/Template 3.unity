@@ -8282,7 +8282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcc34aa521b9d7d4bb9c6146af8ff691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lifes: 100
+  _lifes: 10
   _inGameUI: {fileID: 800318858}
   _inGameMenu: {fileID: 1680530608}
   _pauseUI: {fileID: 547211416}
