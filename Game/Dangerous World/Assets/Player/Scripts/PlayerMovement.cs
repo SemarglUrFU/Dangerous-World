@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                     var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
                     var targetVelocity = _input.move * _walkSpeed * alongGround + _movingPlatformVelocity;
                     var currentDirection = Math.Sign(velocity.x - _movingPlatformVelocity.x);
-                    var acceleration = (currentDirection != 0 && (direction != currentDirection) 
+                    var acceleration = (currentDirection != 0 && (direction != currentDirection)
                         ? _decceleration : _acceleration) * (1 + angle / _maxSurfaceAngle);
                     velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
                 }
@@ -246,46 +246,44 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     private void StartJump()
     {
         _wasReleased = false;
-        if (_jumpState != JumpState.started)
+        if (_jumpState == JumpState.started || _topSensor.IsIntersect) { return; }
+        if (_jumpState == JumpState.none && _lastGroundTime + _coyoteTime > Time.time)
         {
-            if (_jumpState == JumpState.none && _lastGroundTime + _coyoteTime > Time.time)
+            if (_groundAngle > _slideSurfaceAngle)
             {
-                if (_groundAngle > _slideSurfaceAngle)
-                {
-                    const float pulseVelocity = 15f;
-                    var velocity = _rigidbody.velocity;
-                    var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * pulseVelocity;
-                    velocity.x = pulse > 0 ? Mathf.Max(velocity.x, pulse) : Mathf.Min(velocity.x, pulse);
-                    _rigidbody.velocity = velocity;
-                }
-                _jumpState = JumpState.started;
-                _jumpStartTime = Time.time;
-                _onJump.Invoke(true);
-            }
-            else if (_nearWall != 0)
-            {
-                JumpReset();
-                _jumpState = JumpState.started;
-                _jumpStartTime = Time.time;
+                const float pulseVelocity = 15f;
                 var velocity = _rigidbody.velocity;
-                velocity.x = -_nearWall * _jumpVelocity.x;
+                var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * pulseVelocity;
+                velocity.x = pulse > 0 ? Mathf.Max(velocity.x, pulse) : Mathf.Min(velocity.x, pulse);
                 _rigidbody.velocity = velocity;
-                _wallJumpLockUntil = Time.time + _jumpCutoffTime;
-                _facingRight = GetRotationByDirection(-_nearWall);
-                _onJump.Invoke(true);
             }
-            else if (_extraJumpsLeft > 0)
-            {
-                var inputDirection = math.sign(_input.move);
-                var rigidbodyVelocity = _rigidbody.velocity;
-                if (inputDirection != 0)
-                    _rigidbody.velocity = new(_jumpVelocity.x * inputDirection, rigidbodyVelocity.y);
+            _jumpState = JumpState.started;
+            _jumpStartTime = Time.time;
+            _onJump.Invoke(true);
+        }
+        else if (_nearWall != 0)
+        {
+            JumpReset();
+            _jumpState = JumpState.started;
+            _jumpStartTime = Time.time;
+            var velocity = _rigidbody.velocity;
+            velocity.x = -_nearWall * _jumpVelocity.x;
+            _rigidbody.velocity = velocity;
+            _wallJumpLockUntil = Time.time + _jumpCutoffTime;
+            _facingRight = GetRotationByDirection(-_nearWall);
+            _onJump.Invoke(true);
+        }
+        else if (_extraJumpsLeft > 0)
+        {
+            var inputDirection = math.sign(_input.move);
+            var rigidbodyVelocity = _rigidbody.velocity;
+            if (inputDirection != 0)
+                _rigidbody.velocity = new(_jumpVelocity.x * inputDirection, rigidbodyVelocity.y);
 
-                _extraJumpsLeft--;
-                _jumpState = JumpState.started;
-                _jumpStartTime = Time.time;
-                _onJump.Invoke(true);
-            }
+            _extraJumpsLeft--;
+            _jumpState = JumpState.started;
+            _jumpStartTime = Time.time;
+            _onJump.Invoke(true);
         }
     }
     private void StopJump()
