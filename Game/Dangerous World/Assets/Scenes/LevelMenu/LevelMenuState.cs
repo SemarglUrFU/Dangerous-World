@@ -7,8 +7,8 @@ public class LevelMenuState : MonoBehaviour
     [SerializeField] private TMP_Text _name;
     [SerializeField] private Image _preview;
     [SerializeField] private GameObject _starsContainer;
-    [SerializeField] private Color _starsActiveColor;
-    [SerializeField] private Color _starsDisableColor;
+    [SerializeField] private Sprite _starsActiveSprite;
+    [SerializeField] private Sprite _starsDisableSprite;
     [SerializeField] private GameObject _lock;
     [SerializeField] private TMP_Text _cost;
     private Image[] _stars = new Image[3];
@@ -24,7 +24,7 @@ public class LevelMenuState : MonoBehaviour
             if (stars > 0)
             {
                 for (var i = 0; i < _stars.Length; i++)
-                    _stars[i].color = (i < stars) ? _starsActiveColor : _starsDisableColor;
+                    _stars[i].sprite = (i < stars) ? _starsActiveSprite : _starsDisableSprite;
                 _starsContainer.SetActive(true);
             }
             else _starsContainer.SetActive(false);

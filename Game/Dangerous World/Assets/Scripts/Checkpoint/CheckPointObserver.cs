@@ -5,6 +5,7 @@ public class CheckPointObserver : MonoBehaviour, ICheckPointObserver
 {
     public UnityEvent OnNewCheckPoint => _onNewCheckPoint;
     public ICheckPoint ActiveCheckpoint => _activeCheckpoint;
+    public bool Enabled { get; set; }
     public Vector2 Position => _activeCheckpoint?.Position ?? _defaultPostion;
 
     private ICheckPoint _activeCheckpoint;
@@ -13,7 +14,8 @@ public class CheckPointObserver : MonoBehaviour, ICheckPointObserver
 
     public void UpdateActiveCheckpoint(ICheckPoint checkPoint)
     {
-        if (checkPoint != _activeCheckpoint) 
+        if (!Enabled) { return; }
+        if (checkPoint != _activeCheckpoint)
         {
             _activeCheckpoint?.UpdateStatus(false);
             _activeCheckpoint = checkPoint;
