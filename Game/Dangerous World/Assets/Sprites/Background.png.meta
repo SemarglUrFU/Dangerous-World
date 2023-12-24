@@ -206,6 +206,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Background_4
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1154
+        width: 2
+        height: 2
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f219178c5e18424c8e0d708df56d2c1
+      internalID: -1036789946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -221,6 +242,7 @@ TextureImporter:
       Background_1: 1217231162
       Background_2: -713865560
       Background_3: 101465933
+      Background_4: -1036789946
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

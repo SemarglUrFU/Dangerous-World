@@ -28,7 +28,7 @@ public class BoxSensor : Sensor
     }
     private void OnDrawGizmos()
     {
-        if (UnityEditor.Selection.activeGameObject != gameObject || enabled) return;
+        if (UnityEditor.Selection.activeGameObject != gameObject || !enabled) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawWireCube(transform.position + (Vector3)_castOffset, _castSize);
         Gizmos.DrawWireCube(transform.position + (Vector3)_castOffset + (Vector3)(_castDirection * _castDistance), _castSize);
