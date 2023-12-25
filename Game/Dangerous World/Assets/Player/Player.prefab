@@ -291,6 +291,7 @@ MonoBehaviour:
   _visualAchor: {fileID: 3735187464992484726}
   maxFriction: {fileID: 6200000, guid: d0c384a3788692e4ea4fcc77b4d712ad, type: 2}
   minFriction: {fileID: 6200000, guid: bbdacfbe8295e284c80f1633bcefce7e, type: 2}
+  PlayerAnimation: {fileID: 2512241584320659520}
   _facingRight: 1
   _maxRotationSpeed: 10
   _walkSpeed: 20

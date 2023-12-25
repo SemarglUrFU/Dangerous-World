@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] private PhysicsMaterial2D maxFriction;
     [SerializeField] private PhysicsMaterial2D minFriction;
 
+    [SerializeField] private PlayerAnimation PlayerAnimation;
+
     private float _defaultGravityScale;
 
     private void Awake()
@@ -202,6 +204,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             var acceleration = _input.move != 0 ? _airAcceleration : _airDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, targetXVelocity, acceleration * Time.deltaTime);
         }
+        PlayerAnimation.SetMoving(velocity.x);
         _onMoving.Invoke(velocity.x - _movingPlatformVelocity.x);
         _rigidbody.velocity = velocity;
         _onMoving.Invoke(velocity.x);
