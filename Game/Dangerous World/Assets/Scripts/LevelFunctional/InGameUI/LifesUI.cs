@@ -44,9 +44,16 @@ public class LifesUI : MonoBehaviour
         else {_lifes[_lifesLeft-1].Enable();}
     }
 
+    public void Set(int count)
+    {
+        _lifesLeft = (count < 0 || count > _lifeCount) ? _lifeCount : count;
+        for (int i = 0; i < _lifesLeft; i++) { _lifes[i].Initialize(true); }
+        for (int i = _lifesLeft; i < _lifeCount; i++) { _lifes[i].Initialize(false); }
+    }
+
     private void OnValidate()
     {
-        _gridLayout ??= GetComponent<GridLayoutGroup>();
+        _gridLayout = _gridLayout != null ? _gridLayout : GetComponent<GridLayoutGroup>();
     }
 
 #if UNITY_EDITOR

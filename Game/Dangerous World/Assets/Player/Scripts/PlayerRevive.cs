@@ -6,6 +6,8 @@ public class PlayerRevive : MonoBehaviour, IDamageble
 {
     [SerializeField] private UnityEvent _onDeath;
     [SerializeField] private UnityEvent _onRevive;
+    [SerializeField] private FadeTransition _transition;
+    [SerializeField] private CheckPointObserver _checkPointObserver;
 
     public bool Invulnerable { get; set ; } = false;
     public bool Dead { get; set; } = false;
@@ -13,11 +15,13 @@ public class PlayerRevive : MonoBehaviour, IDamageble
     public UnityEvent OnDeath => _onDeath;
     public UnityEvent OnRevive => _onRevive;
 
-    private ISceneTransition _transition;
-    private ICheckPointObserver _checkPointObserver;
     private LifeCounter _lifeCounter;
 
-    public void Initialize(LifeCounter lifeCounter) {_lifeCounter = lifeCounter;}
+    public void Initialize(LifeCounter lifeCounter) 
+    {
+        _lifeCounter = lifeCounter;
+        _lifeCounter.OnSet += OnSetLifes;
+    }
 
     public bool ApplyDamage()
     {
@@ -41,10 +45,23 @@ public class PlayerRevive : MonoBehaviour, IDamageble
         }
     }
 
+    private void OnSetLifes(int count)
+    {
+        if (count > 0 && Dead)
+        {
+            Revive();
+        }
+    }
+
+    private void Awake()
+    {
+
+    }
+
     [ContextMenu("Validate")]
     private void OnValidate()
     {
-        _checkPointObserver = GetComponent<ICheckPointObserver>();
-        _transition = GetComponentInChildren<ISceneTransition>();
+        _checkPointObserver = GetComponent<CheckPointObserver>();
+        _transition = GetComponentInChildren<FadeTransition>();
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f770b48546eb264384c0386df03ca6f, type: 3}
   m_Name: Template
   m_EditorClassIdentifier: 
-  _scene: {fileID: 102900000, guid: c9217bb02703dcd4299dccdc0af20f0b, type: 3}
+  _sceneAsset: {fileID: 102900000, guid: c9217bb02703dcd4299dccdc0af20f0b, type: 3}
   _cost: 0
   _preview: {fileID: 0}

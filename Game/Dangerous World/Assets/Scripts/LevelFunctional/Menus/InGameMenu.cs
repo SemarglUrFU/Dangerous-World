@@ -12,8 +12,9 @@ public class InGameMenu : MonoBehaviour
     private IInGameMenu _currentMenu;
     private InputActions _inputActions;
 
-    public void Initialize(InputActions inputActions)
+    public void Initialize(InputActions inputActions, ISceneTransition sceneTransition)
     {
+        _sceneTransition = sceneTransition;
         _inputActions = inputActions;
         _inputActions.UI.Close.started += OnEnterPauseMenu;
     }
@@ -52,7 +53,6 @@ public class InGameMenu : MonoBehaviour
 
     private void OnValidate()
     {
-        _sceneTransition ??= GetComponentInChildren<ISceneTransition>();
         _pauseUI = _pauseUI != null ? _pauseUI : GetComponentInChildren<PauseUI>();
         _endLevelUI = _endLevelUI != null ? _endLevelUI : GetComponentInChildren<EndLevelUI>();
     }

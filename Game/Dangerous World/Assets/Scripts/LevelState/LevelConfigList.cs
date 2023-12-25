@@ -24,10 +24,11 @@ public class LevelConfigList : ScriptableObject
         }
     }
 
+#if UNITY_EDITOR
     [ContextMenu("Remove all states")]
     private void RemoveAllStates()
     {
-        _levels.ForEach(level=> LevelRepository.Remove(level.Id));
+        _levels.ForEach(level => LevelRepository.Remove(level.Id));
     }
 
     [ContextMenu("Add player 5 Points")]
@@ -41,4 +42,5 @@ public class LevelConfigList : ScriptableObject
     {
         Prefs.__ResetPoints();
     }
+#endif
 }

@@ -30,6 +30,6 @@ public class PlayerInput : MonoBehaviour
     }
 
     private void OnValidate(){
-        _playerMovement ??= GetComponent<PlayerMovement>();
+        _playerMovement = _playerMovement != null ? _playerMovement : GetComponent<PlayerMovement>();
     }
 }

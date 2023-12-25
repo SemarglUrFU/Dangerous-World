@@ -13,8 +13,8 @@ public class RaySensor : Sensor
     public override RaycastHit2D IntersectHit => _intersectHit;
 
     private RaycastHit2D _intersectHit;
-    private Vector2 RayStart => (Vector2) transform.position+_rayOffset;
-    private Vector2 RayEnd => RayStart + _rayDirection*_rayDistance;
+    private Vector2 RayStart => (Vector2)transform.position + _rayOffset;
+    private Vector2 RayEnd => RayStart + _rayDirection * _rayDistance;
 
     private void FixedUpdate()
     {
@@ -24,13 +24,17 @@ public class RaySensor : Sensor
         _intersectHit = Physics2D.Raycast(origin, direction, _rayDistance, _layerMask);
     }
 
-    private void OnValidate(){
+    private void OnValidate()
+    {
         _rayDirection = _rayDirection.normalized;
     }
-
-    private void OnDrawGizmos(){
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
         if (UnityEditor.Selection.activeGameObject != gameObject || !enabled) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawLine(RayStart, RayEnd);
     }
+#endif
 }

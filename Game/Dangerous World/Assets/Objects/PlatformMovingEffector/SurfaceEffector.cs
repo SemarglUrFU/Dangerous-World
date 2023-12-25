@@ -3,6 +3,7 @@ using UnityEngine;
 [SelectionBase]
 public class PlatformEffector : MonoBehaviour
 {
+#if UNITY_EDITOR
     [SerializeField] private bool _flip;
 
     private void OnValidate()
@@ -18,4 +19,5 @@ public class PlatformEffector : MonoBehaviour
 
         _spriteRenderer.flipX = _flip;
     }
+#endif
 }

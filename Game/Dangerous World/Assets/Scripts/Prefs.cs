@@ -20,7 +20,6 @@ public static class Prefs
         set => Repository.SaveValue(SELECTED_LEVEL_KEY, value);
     }
 
-
     public static void __ResetPoints()
     {
         Repository.RemoveData(KEY_POINTS);

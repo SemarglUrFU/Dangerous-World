@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 210266441}
   - component: {fileID: 210266443}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Bootstrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -172,8 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6b106c934a0054eaa42b658c4b39e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadScene: {fileID: 102900000, guid: 85a5b72fec751e54c9c7c8bda27b2dba, type: 3}
-  _loader: {fileID: 102900000, guid: 80cd01714e1123a4abd91bf758d41f93, type: 3}
+  _loadSceneAsset: {fileID: 102900000, guid: 3d18d9125a5c0a749854fb6e3805a7bc, type: 3}
+  _loaderAsset: {fileID: 102900000, guid: 80cd01714e1123a4abd91bf758d41f93, type: 3}
   _sceneTransition: {fileID: 174720451}
 --- !u!1001 &537356130
 PrefabInstance:

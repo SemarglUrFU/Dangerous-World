@@ -1,4 +1,5 @@
 using System;
+using InstantGamesBridge;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -7,13 +8,17 @@ using UnityEngine.UI;
 
 public class EndLevelUI : MonoBehaviour, IInGameMenu
 {
+#if UNITY_EDITOR
+    [SerializeField] private SceneAsset _levelMenuAsset;
+#endif
     [SerializeField] private TMP_Text _levelNumber;
     [SerializeField] private TMP_Text _header;
     [SerializeField] private TMP_Text _coins;
     [SerializeField] private TMP_Text _stars;
     [SerializeField] private Button _menuBtn;
     [SerializeField] private Button _nextOrRestartBtn;
-    [SerializeField] private SceneAsset _levelMenu;
+    [SerializeField] private string _levelMenu;
+    [SerializeField] private AdsUI _adsUI;
     [Space]
     [SerializeField] private AnimationClip _openAnimation;
     [SerializeField] private AnimationClip _closeAnimation;
@@ -23,21 +28,29 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
 
     private InputActions _inputActions;
     private LevelIngameState _nextLevelState;
+    private LifeCounter _lifeCounter;
+    private Action MenuOpenAction;
+    private bool _rewardWasUsed = false;
 
-    public void Initialize(InputActions inputActions)
+    public void Initialize(InputActions inputActions, AdsUI adsUI, LifeCounter lifeCounter, CoinsCounter coinsCounter)
     {
         _inputActions = inputActions;
         _levelNumber.text = LevelLoader.Number.ToString();
         _menuBtn.onClick.AddListener(OpenLevelMenu);
+        _adsUI = adsUI;
+        _adsUI.OnCloseWithNoReward += OpenEndLevelMenu;
+        _adsUI.OnCloseWithReward += OnLiveReward;
+        _lifeCounter = lifeCounter;
     }
 
     public void Set(bool win, CoinsCounter coinsCounter, int stars)
     {
         _coins.text = $"{coinsCounter.Сollected} / {coinsCounter.Total}";
+        MenuOpenAction = OpenEndLevelMenu;
+        _stars.text = $"{stars} / 3";
         if (win)
         {
             _header.text = "Пройден";
-            _stars.text = $"{stars} / 3";
             _nextOrRestartBtn.GetComponentInChildren<TMP_Text>().text = "Далее";
             _nextOrRestartBtn.onClick.AddListener(LoadNextLevel);
             _nextOrRestartBtn.onClick.RemoveListener(ReloadLevel);
@@ -47,23 +60,38 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
         }
         else
         {
+            if (Bridge.advertisement.isBannerSupported && !_rewardWasUsed) { MenuOpenAction = OpenAdsMenu; }
             _header.text = "Провален";
-            _stars.text = "0 / 3";
             _nextOrRestartBtn.GetComponentInChildren<TMP_Text>().text = "Заново";
             _nextOrRestartBtn.onClick.RemoveListener(LoadNextLevel);
             _nextOrRestartBtn.onClick.AddListener(ReloadLevel);
         }
     }
 
-    [ContextMenu("Open")]
-    public void Open()
+    public void Open() => MenuOpenAction();
+
+    private void OpenEndLevelMenu()
     {
         _animation.clip = _openAnimation;
         _animation.Play();
         _inputActions.UI.Close.started += OpenLevelMenu;
     }
 
-    [ContextMenu("Close")]
+    private void OpenAdsMenu()
+    {
+        _rewardWasUsed = true;
+        _adsUI.Open();
+        _adsUI.OnCloseWithReward += OnLiveReward;
+        _adsUI.OnCloseWithNoReward += OpenEndLevelMenu;
+    }
+
+    private void OnLiveReward()
+    {
+        var lifes = Mathf.RoundToInt(_lifeCounter.Count * 0.5f + 0.01f);
+        _lifeCounter.Set((int)lifes);
+        OnClose?.Invoke(this);
+    }
+
     public void Close()
     {
         _inputActions.UI.Close.started -= OpenLevelMenu;
@@ -79,17 +107,20 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
 
     private void OpenLevelMenu()
     {
-        SceneLoader.Load(_levelMenu.name, SceneLoader.UseTransition.Both, true);
+        SceneLoader.Load(_levelMenu, SceneLoader.UseTransition.Both, true);
     }
     private void OpenLevelMenu(InputAction.CallbackContext ctx) => OpenLevelMenu();
 
     private void LoadNextLevel()
-    {  
+    {
         LevelLoader.LoadLevel(_nextLevelState);
     }
 
     private void OnValidate()
     {
         if (_animation == null) _animation = GetComponent<Animation>();
+#if UNITY_EDITOR
+        _levelMenu = _levelMenuAsset.name;
+#endif
     }
 }

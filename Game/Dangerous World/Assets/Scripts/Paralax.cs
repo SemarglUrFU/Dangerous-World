@@ -35,7 +35,7 @@ public class Paralax : MonoBehaviour
 
     private void OnValidate()
     {
-        if (follow == null) { follow = Camera.main.transform; }
+        if (follow == null) { follow = Camera.main?.transform; }
         if (targets.Count == 0) {AutoFill();}
     }
 

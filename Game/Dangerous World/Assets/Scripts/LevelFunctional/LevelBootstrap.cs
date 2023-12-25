@@ -6,8 +6,10 @@ public class LevelBootstrap : MonoBehaviour
     [Space]
     [SerializeField] private InGameUI _inGameUI;
     [SerializeField] private InGameMenu _inGameMenu;
+    [SerializeField] private FadeTransition _inGameMenuTransition;
     [SerializeField] private PauseUI _pauseUI;
     [SerializeField] private EndLevelUI _endLevelUI;
+    [SerializeField] private AdsUI _adsUI;
     [SerializeField] private LevelFinish[] _levelFinishs;
 
     private void Start()
@@ -28,15 +30,25 @@ public class LevelBootstrap : MonoBehaviour
 
         var inputActions = new InputActions();
         _pauseUI.Initialize(inputActions);
-        _endLevelUI.Initialize(inputActions);
-        _inGameMenu.Initialize(inputActions);
-        // TODO _adsMenu Init(livecounter) + bind to revive
+        _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter, coinsCounter);
+        _inGameMenu.Initialize(inputActions, _inGameMenuTransition);
+        _adsUI.Initialize(inputActions);
+        lifeCounter.OnLifesOver += () =>
+        {
+#if UNITY_EDITOR
+            if (LevelLoader.Number == 0) _endLevelUI.Set(false, coinsCounter, -1);
+            else _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
+#else
+            _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
+#endif
+            _inGameMenu.OpenMenu(_endLevelUI);
+        };
         inputActions.UI.Enable();
 
 
         foreach (var levelFinish in _levelFinishs)
         {
-            levelFinish.Initialize( coinsCounter, _inGameMenu,_endLevelUI);
+            levelFinish.Initialize(coinsCounter, _inGameMenu, _endLevelUI);
         }
 
 

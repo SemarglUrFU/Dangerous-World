@@ -3,15 +3,28 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    [SerializeField] private SceneAsset _loadScene;
-    [SerializeField] private SceneAsset _loader;
+#if UNITY_EDITOR
+    [SerializeField] private SceneAsset _loadSceneAsset;
+    [SerializeField] private SceneAsset _loaderAsset;
+#endif
     [SerializeField] private GameObject _sceneTransition;
+    [SerializeField] private string _loadScene;
+    [SerializeField] private string _loader;
 
-    void Start()
+
+    private void Start()
     {
         DontDestroyOnLoad(_sceneTransition);
-        SceneLoader.BindLoadScreen(_loader.name);
+        SceneLoader.BindLoadScreen(_loader);
         SceneLoader.BindTransition(_sceneTransition.GetComponent<ISceneTransition>());
-        SceneLoader.Load(_loadScene.name, SceneLoader.UseTransition.Out, true);
+        SceneLoader.Load(_loadScene, SceneLoader.UseTransition.Out, false);
+    }
+
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        _loadScene = _loadSceneAsset.name;
+        _loader = _loaderAsset.name;
+#endif
     }
 }

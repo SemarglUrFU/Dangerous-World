@@ -13,10 +13,10 @@ public class CycleMoving : MonoBehaviour, ICycleMoving
     [SerializeField][Range(0.1f, 1000f)] protected float _minimalVelocity = 1f;
     [SerializeField] protected List<Vector2> _points = new() { Vector2.zero };
     [SerializeField] protected CycleType _cycleType;
+    [SerializeField] protected Rigidbody2D _rigidbody;
 
     public bool IsMoving => _isMoving;
 
-    protected Rigidbody2D _rigidbody;
     protected Vector2 _startPosition;
     protected Vector2 _currentTarget;
     protected float _segmentLength;
@@ -114,6 +114,7 @@ public class CycleMoving : MonoBehaviour, ICycleMoving
         _minimalVelocity = math.min(_minimalVelocity, _velocity);
     }
 
+#if UNITY_EDITOR
     protected void OnDrawGizmos()
     {
         if (UnityEditor.Selection.activeGameObject != gameObject || _points.Count == 0) return;
@@ -136,4 +137,5 @@ public class CycleMoving : MonoBehaviour, ICycleMoving
             return (Vector3)(point + (!Application.isPlaying ? transform.position : _startPosition));
         }
     }
+#endif
 }

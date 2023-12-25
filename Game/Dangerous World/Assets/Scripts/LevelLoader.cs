@@ -8,13 +8,13 @@ public static class LevelLoader
 
     public static void LoadLevel(LevelIngameState levelIngameState)
     {
-        _levelIngameState = levelIngameState;
-        SceneLoader.Load(_levelIngameState.LevelConfig.Scene, SceneLoader.UseTransition.Both, true);
-        SceneLoader.OnSceneLoad += AddExitObserver;
-        void AddExitObserver()
+        SceneLoader.Load(levelIngameState.LevelConfig.Id, SceneLoader.UseTransition.Both, true);
+        SceneLoader.OnSceneLoad += OnLevelLoad;
+        void OnLevelLoad()
         {
-            SceneLoader.OnSceneLoad -= AddExitObserver;
+            SceneLoader.OnSceneLoad -= OnLevelLoad;
             SceneLoader.OnSceneExit += LevelExit;
+            _levelIngameState = levelIngameState;
         }
     }
 

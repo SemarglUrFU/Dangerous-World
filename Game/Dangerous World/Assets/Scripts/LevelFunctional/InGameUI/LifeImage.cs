@@ -31,7 +31,7 @@ public class LifeImage : MonoBehaviour
 
     private void OnValidate()
     {
-        _image ??= GetComponent<Image>();
+        _image = _image != null ? _image : GetComponent<Image>();
         Initialize(_enabled);
     }
 }

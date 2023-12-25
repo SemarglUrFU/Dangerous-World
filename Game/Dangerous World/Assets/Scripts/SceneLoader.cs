@@ -12,11 +12,14 @@ static class SceneLoader
 
     public static void Load(string scene, UseTransition transition, bool useLoadScreen = false)
     {
-        var (useIn, useOut) = transition == UseTransition.Both 
+        var (useIn, useOut) = transition == UseTransition.Both
             ? (true, true) : (transition == UseTransition.In, transition == UseTransition.Out);
-        
+
         if (useIn)
         {
+#if UNITY_EDITOR
+            if (_sceneTransition == null) { StartLoadScene(); return; }
+#endif
             _sceneTransition.PlayIn();
             _sceneTransition.OnCurrentAnimationEnded.AddListener(StartLoadScene);
         }
@@ -25,6 +28,9 @@ static class SceneLoader
         void StartLoadScene()
         {
             OnSceneExit?.Invoke();
+#if UNITY_EDITOR
+            if (_loadScreenName == null) { LoadSceneAsync(); return; }
+#endif
             if (useLoadScreen)
             {
                 SceneManager.LoadScene(_loadScreenName);
@@ -50,11 +56,14 @@ static class SceneLoader
         void OnSceneAsyncLoad(AsyncOperation operation)
         {
             OnSceneLoad?.Invoke();
+#if UNITY_EDITOR
+            if (_sceneTransition == null) { return; }
+#endif
             if (useOut) { _sceneTransition.PlayOut(); }
         }
     }
 
     public static void BindTransition(ISceneTransition sceneTransition) => _sceneTransition = sceneTransition;
     public static void BindLoadScreen(string loadScreenName) => _loadScreenName = loadScreenName;
-    public enum UseTransition:byte{None, In, Out, Both}
+    public enum UseTransition : byte { None, In, Out, Both }
 }

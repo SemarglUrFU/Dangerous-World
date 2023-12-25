@@ -11,7 +11,7 @@ public class LevelMenuState : MonoBehaviour
     [SerializeField] private Sprite _starsDisableSprite;
     [SerializeField] private GameObject _lock;
     [SerializeField] private TMP_Text _cost;
-    private Image[] _stars = new Image[3];
+    [SerializeField] private Image[] _stars = new Image[3];
 
     public void UpdateVisual(string name, Sprite preview, bool unlocked, int stars = 0, int cost = 0)
     {

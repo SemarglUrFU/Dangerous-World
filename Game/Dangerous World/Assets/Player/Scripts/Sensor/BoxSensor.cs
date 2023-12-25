@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 public class BoxSensor : Sensor
@@ -16,8 +15,8 @@ public class BoxSensor : Sensor
     private RaycastHit2D _intersectHit;
     private void FixedUpdate()
     {
-        var (origin, direction) = _followRotation 
-            ? ((Vector2)transform.position + Rotate(_castOffset, transform.rotation.z*2), Rotate(_castDirection, transform.rotation.z*2) )
+        var (origin, direction) = _followRotation
+            ? ((Vector2)transform.position + Rotate(_castOffset, transform.rotation.z * 2), Rotate(_castDirection, transform.rotation.z * 2))
             : ((Vector2)transform.position + _castOffset, _castDirection);
         _intersectHit = Physics2D.BoxCast(origin, _castSize, 0, direction, _castDistance, _layerMask);
     }
@@ -26,11 +25,14 @@ public class BoxSensor : Sensor
     {
         _castDirection = _castDirection.normalized;
     }
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (UnityEditor.Selection.activeGameObject != gameObject || !enabled) return;
         Gizmos.color = IsIntersect ? Color.yellow : Color.grey;
         Gizmos.DrawWireCube(transform.position + (Vector3)_castOffset, _castSize);
         Gizmos.DrawWireCube(transform.position + (Vector3)_castOffset + (Vector3)(_castDirection * _castDistance), _castSize);
-   }
+    }
+#endif
 }

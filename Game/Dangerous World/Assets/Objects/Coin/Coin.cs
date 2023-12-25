@@ -34,7 +34,7 @@ public class Coin : MonoBehaviour
 
     private void OnValidate()
     {
-        _trigger ??= GetComponent<Collider2D>();
+        _trigger = _trigger != null ? _trigger : GetComponent<Collider2D>();
         if (_trigger.isTrigger == false) { Debug.LogError("Coin collader must be trigger"); }
     }
 }

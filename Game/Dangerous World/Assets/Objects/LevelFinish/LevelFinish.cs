@@ -12,6 +12,8 @@ public class LevelFinish : MonoBehaviour
     private InGameMenu _inGameMenu;
     private EndLevelUI _endLevel;
 
+    public static int GetCurrentStars(CoinsCounter coinsCounter) => GetStars(coinsCounter.Сollected, coinsCounter.Total);
+
     public void Initialize(CoinsCounter coinsCounter, InGameMenu inGameMenu, EndLevelUI endLevel)
     {
         _coinsCounter = coinsCounter;
@@ -21,13 +23,13 @@ public class LevelFinish : MonoBehaviour
 
     public void FinishTriggered()
     {
-        var stars = GetStars(_coinsCounter.Сollected, _coinsCounter.Total);
+        var stars = GetCurrentStars(_coinsCounter);
         LevelLoader.LevelPassed(stars);
         _endLevel.Set(true, _coinsCounter, stars);
         _inGameMenu.OpenMenu(_endLevel);
     }
 
-    private int GetStars(int collectedCoins, int totalCoins)
+    private static int GetStars(int collectedCoins, int totalCoins)
     {
         var starCost = totalCoins / 3;
         return collectedCoins == totalCoins ? 3 : collectedCoins / starCost;

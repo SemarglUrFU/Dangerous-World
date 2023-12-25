@@ -390,7 +390,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
     private void OnValidate()
     {
-        _rigidbody ??= GetComponent<Rigidbody2D>();
+        _rigidbody = _rigidbody != null ? _rigidbody : GetComponent<Rigidbody2D>();
         if (_maxSurfaceAngle > _slideSurfaceAngle) { _slideSurfaceAngle = _maxSurfaceAngle; }
     }
 }

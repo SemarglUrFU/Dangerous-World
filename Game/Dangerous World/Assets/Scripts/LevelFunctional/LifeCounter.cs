@@ -4,6 +4,7 @@ public class LifeCounter
     public Action OnLifesOver;
     public Action OnLifesAdd;
     public Action OnLifesSpend;
+    public Action<int> OnSet;
 
     public int Count { get; private set; }
     public int Left { get; private set; }
@@ -28,5 +29,12 @@ public class LifeCounter
         if (++Left > Count) { Left = Count; return false; }
         OnLifesAdd?.Invoke();
         return true;
+    }
+
+    public void Set(int count = -1)
+    {
+        if (count > Count || count < 0) { Left = Count; }
+        else { Left = count; }
+        OnSet?.Invoke(Left);
     }
 }
