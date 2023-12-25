@@ -14,6 +14,9 @@ public class LevelBootstrap : MonoBehaviour
 
     private void Start()
     {
+        var inputActions = new InputActions();
+        Player.Instance.GetComponent<PlayerInput>().Initialize(inputActions);
+
         var lifeCounter = new LifeCounter();
         lifeCounter.Initialize(_lifes);
         var playerRevive = Player.Instance.GetComponent<PlayerRevive>();
@@ -27,8 +30,6 @@ public class LevelBootstrap : MonoBehaviour
 
         _inGameUI.Initialize(lifeCounter, coinsCounter);
 
-
-        var inputActions = new InputActions();
         _pauseUI.Initialize(inputActions);
         _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter, coinsCounter);
         _inGameMenu.Initialize(inputActions, _inGameMenuTransition);

@@ -4,24 +4,13 @@ public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private Transform _anchor;
-    private int _verticalState = 0;
-    private float _moving = 0;
 
-
-    // public void Jump(bool isStarted) => ;
-    // public void Dash(bool isStarted) => ;
-    // public void Dead() => 
-    // public void Rewive() => 
+    public void Dash(bool isStarted) => _animator.SetBool("Dash", isStarted);
+    public void VerticalState(int direction) => _animator.SetInteger("VerticalDirection", direction);
+    public void Move(float velocity) => _animator.SetFloat("Move", Mathf.Abs(velocity));
+    public void Dead() => _animator.SetBool("Dead", true);
+    public void Rewive() => _animator.SetBool("Dead", false);
     public void Rotate(float angle) => _anchor.eulerAngles = new(0, 0, angle);
-    public void SetVerticalState(int direction) => _verticalState = direction;
-    public void SetMoving(float speed) 
-    {
-        if (speed != 0)
-            _animator.SetBool("stop", false);
-        else
-            _animator.SetBool("stop", true);
-        _moving = speed; 
-    }
 
     private void OnValidate()
     {

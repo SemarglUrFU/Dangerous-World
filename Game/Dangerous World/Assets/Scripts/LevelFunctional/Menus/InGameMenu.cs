@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +35,7 @@ public class InGameMenu : MonoBehaviour
         _currentMenu = menu;
         menu.Open();
         menu.OnClose += OnMenuClose;
+        _inputActions.Main.Disable();
     }
 
     public void CloseCurrentMenu() => _currentMenu.Close();
@@ -46,10 +48,10 @@ public class InGameMenu : MonoBehaviour
         _currentMenu = null;
         _sceneTransition.PlayOut();
         _inputActions.UI.Close.started += OnEnterPauseMenu;
+        _inputActions.Main.Enable();
     }
 
     private void OnEnterPauseMenu(InputAction.CallbackContext ctx) => OpenMenu(_pauseUI);
-
 
     private void OnValidate()
     {

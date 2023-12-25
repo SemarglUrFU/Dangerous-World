@@ -6,11 +6,14 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] PlayerMovement _playerMovement;
     private InputActions _input;
 
-    private void Awake(){
-        _input = new();
+    public void Initialize(InputActions input)
+    {
+        _input = input;
+        Subscribe();
+        OnEnable();
     }
 
-    private void Start(){
+    private void Subscribe(){
         _input.Main.Move.started  += (ctx) => _playerMovement.InputMove(ctx.ReadValue<float>());
         _input.Main.Move.canceled += (ctx) => _playerMovement.InputMove(0f);
         _input.Main.Jump.started  += (ctx) => _playerMovement.SetInputJump(true);
@@ -21,12 +24,12 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.Enable();
+        _input?.Main.Enable();
     }
 
     private void OnDisable()
     {
-        _input.Main.Disable();
+        _input?.Main.Disable();
     }
 
     private void OnValidate(){

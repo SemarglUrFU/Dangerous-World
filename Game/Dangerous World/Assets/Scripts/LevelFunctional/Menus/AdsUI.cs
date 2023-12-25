@@ -19,6 +19,8 @@ public class AdsUI : MonoBehaviour, IInGameMenu
     [SerializeField] private Button _btnShowAds;
 
     private InputActions _inputActions;
+    private bool _gotReward;
+
     public void Initialize(InputActions inputActions)
     {
         _inputActions = inputActions;
@@ -35,6 +37,7 @@ public class AdsUI : MonoBehaviour, IInGameMenu
 
     public void ShowAds()
     {
+        _gotReward = false;
         Bridge.advertisement.ShowRewarded();
         Bridge.advertisement.rewardedStateChanged += OnRewardedStateChanged;
         _inputActions.UI.Close.started -= Close;
@@ -49,8 +52,14 @@ public class AdsUI : MonoBehaviour, IInGameMenu
 
     private void OnRewardedStateChanged(RewardedState state)
     {
-        if (state == RewardedState.Failed) { OnAdsLoadError(); }
-        else if (state == RewardedState.Rewarded) { CloseWithReward(); }
+        if (state == RewardedState.Opened) { Time.timeScale = 0; }
+        else if (state == RewardedState.Failed) { OnAdsLoadError(); }
+        else if (state == RewardedState.Rewarded) { _gotReward = true; }
+        else if (state == RewardedState.Closed)
+        {
+            Time.timeScale = 1;
+            if (_gotReward) { CloseWithReward(); }
+        }
     }
 
     public void Close()
@@ -73,6 +82,11 @@ public class AdsUI : MonoBehaviour, IInGameMenu
         Bridge.advertisement.rewardedStateChanged -= OnRewardedStateChanged;
         _animation.clip = _closeAnimation;
         _animation.Play();
+    }
+
+    private void OnDestroy()
+    {
+        Bridge.advertisement.rewardedStateChanged -= OnRewardedStateChanged;
     }
 
     private void OnValidate()

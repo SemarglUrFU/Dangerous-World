@@ -81,8 +81,6 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
     {
         _rewardWasUsed = true;
         _adsUI.Open();
-        _adsUI.OnCloseWithReward += OnLiveReward;
-        _adsUI.OnCloseWithNoReward += OpenEndLevelMenu;
     }
 
     private void OnLiveReward()

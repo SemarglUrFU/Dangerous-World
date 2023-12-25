@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,8 +50,8 @@ static class SceneLoader
         void LoadSceneAsync()
         {
             var loadOperation = SceneManager.LoadSceneAsync(scene);
-            loadOperation.allowSceneActivation = true;
             loadOperation.completed += OnSceneAsyncLoad;
+            loadOperation.allowSceneActivation = true;
         }
 
         void OnSceneAsyncLoad(AsyncOperation operation)

@@ -6,12 +6,12 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
-    [SerializeField] UnityEvent _onGrounded;
-    [SerializeField] UnityEvent<float> _onRotate;
-    [SerializeField] UnityEvent<int> _onVerticalDirectionChange;
-    [SerializeField] UnityEvent<float> _onMoving;
-    [SerializeField] UnityEvent<bool> _onJump;
-    [SerializeField] UnityEvent<bool> _onDash;
+    [SerializeField] private UnityEvent _onGrounded;
+    [SerializeField] private UnityEvent<float> _onRotate;
+    [SerializeField] private UnityEvent<int> _onVerticalDirectionChange;
+    [SerializeField] private UnityEvent<float> _onMoving;
+    [SerializeField] private UnityEvent<bool> _onJump;
+    [SerializeField] private UnityEvent<bool> _onDash;
 
     [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private Sensor _topSensor;
@@ -23,8 +23,6 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] private Transform _visualAchor;
     [SerializeField] private PhysicsMaterial2D maxFriction;
     [SerializeField] private PhysicsMaterial2D minFriction;
-
-    [SerializeField] private PlayerAnimation PlayerAnimation;
 
     private float _defaultGravityScale;
 
@@ -204,7 +202,6 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             var acceleration = _input.move != 0 ? _airAcceleration : _airDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, targetXVelocity, acceleration * Time.deltaTime);
         }
-        PlayerAnimation.SetMoving(velocity.x);
         _onMoving.Invoke(velocity.x - _movingPlatformVelocity.x);
         _rigidbody.velocity = velocity;
         _onMoving.Invoke(velocity.x);

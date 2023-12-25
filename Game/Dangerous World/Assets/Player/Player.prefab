@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1341600290849554319}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.02, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: -651527226, guid: a9d569de87d9cbf45bc4fdae775e77df, type: 3}
+  m_Sprite: {fileID: -1671307008, guid: 034fb8dd6cb7aa54d801f6dce2cf1508, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -272,16 +272,52 @@ MonoBehaviour:
         m_CallState: 2
   _onVerticalDirectionChange:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2512241584320659520}
+        m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: VerticalState
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onMoving:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2512241584320659520}
+        m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onJump:
     m_PersistentCalls:
       m_Calls: []
   _onDash:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2512241584320659520}
+        m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: Dash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _rigidbody: {fileID: 4195559774118235853}
   _topSensor: {fileID: 8644855558782852463}
   _leftSensor: {fileID: 5543971962030161071}
@@ -291,7 +327,6 @@ MonoBehaviour:
   _visualAchor: {fileID: 3735187464992484726}
   maxFriction: {fileID: 6200000, guid: d0c384a3788692e4ea4fcc77b4d712ad, type: 2}
   minFriction: {fileID: 6200000, guid: bbdacfbe8295e284c80f1633bcefce7e, type: 2}
-  PlayerAnimation: {fileID: 2512241584320659520}
   _facingRight: 1
   _maxRotationSpeed: 10
   _walkSpeed: 20
@@ -450,6 +485,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2512241584320659520}
+        m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: Dead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onRevive:
     m_PersistentCalls:
       m_Calls:
@@ -477,6 +524,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 2512241584320659520}
+        m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: Rewive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  _transition: {fileID: 3012457648484895342}
+  _checkPointObserver: {fileID: 677039870117890548}
 --- !u!114 &677039870117890548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4947a76a6c3f05e40801aad6a6573a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onNewCheckPoint:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5574097668662321610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,7 +604,7 @@ Transform:
   m_GameObject: {fileID: 5048990369179850119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -644,6 +708,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a356e999c1932ee45b628a070f50fcff, type: 3}
+--- !u!114 &3012457648484895342 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4098969742390238463, guid: a356e999c1932ee45b628a070f50fcff, type: 3}
+  m_PrefabInstance: {fileID: 1237382716008650385}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73186e6908e23214cb9255693db5f5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8631591625675271861 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7414477358565636132, guid: a356e999c1932ee45b628a070f50fcff, type: 3}
