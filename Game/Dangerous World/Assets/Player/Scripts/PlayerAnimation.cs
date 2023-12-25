@@ -14,7 +14,14 @@ public class PlayerAnimation : MonoBehaviour
     // public void Rewive() => 
     public void Rotate(float angle) => _anchor.eulerAngles = new(0, 0, angle);
     public void SetVerticalState(int direction) => _verticalState = direction;
-    public void SetMoving(float speed) => _moving = speed;
+    public void SetMoving(float speed) 
+    {
+        if (speed != 0)
+            _animator.SetBool("stop", false);
+        else
+            _animator.SetBool("stop", true);
+        _moving = speed; 
+    }
 
     private void OnValidate()
     {
