@@ -6,11 +6,11 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
-    [SerializeField] private UnityEvent _onGrounded;
+    [SerializeField] private UnityEvent<bool> _onGrounded;
     [SerializeField] private UnityEvent<float> _onRotate;
     [SerializeField] private UnityEvent<int> _onVerticalDirectionChange;
     [SerializeField] private UnityEvent<float> _onMoving;
-    [SerializeField] private UnityEvent<bool> _onJump;
+    [SerializeField] private UnityEvent<int> _onJump; // 0 - end, 1 - jump, 2 - extra jump 
     [SerializeField] private UnityEvent<bool> _onDash;
 
     [SerializeField] private Rigidbody2D _rigidbody;
@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (!_wasGrounded)
             {
                 _wasGrounded = true;
-                _onGrounded.Invoke();
+                _onGrounded.Invoke(true);
                 _verticalDirection = 0;
                 _onVerticalDirectionChange.Invoke(0);
             }
@@ -107,6 +107,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (_wasGrounded)
             {
                 SmoothRotate(0);
+                _onGrounded.Invoke(false);
                 _movingPlatformVelocity = Vector2.zero;
                 _wasGrounded = false;
             }
@@ -239,7 +240,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         {
             if ((_wasReleased && !(_jumpStartTime + _jumpCutoffTime > Time.time)) ||
                 (_topSensor.IsIntersect && !_topSensor.IntersectHit.collider.TryGetComponent<PlatformEffector2D>(out var _)))
-            { _jumpState = JumpState.ended; _onJump.Invoke(false); }
+            { _jumpState = JumpState.ended; _onJump.Invoke(0); }
             ContinueJump();
         }
     }
@@ -259,7 +260,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             }
             _jumpState = JumpState.started;
             _jumpStartTime = Time.time;
-            _onJump.Invoke(true);
+            _onJump.Invoke(1);
         }
         else if (_nearWall != 0)
         {
@@ -271,7 +272,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             _rigidbody.velocity = velocity;
             _wallJumpLockUntil = Time.time + _jumpCutoffTime;
             _facingRight = GetRotationByDirection(-_nearWall);
-            _onJump.Invoke(true);
+            _onJump.Invoke(2);
         }
         else if (_extraJumpsLeft > 0)
         {
@@ -283,7 +284,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             _extraJumpsLeft--;
             _jumpState = JumpState.started;
             _jumpStartTime = Time.time;
-            _onJump.Invoke(true);
+            _onJump.Invoke(2);
         }
     }
     private void StopJump()
@@ -294,7 +295,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     {
         StopJump();
         _jumpState = JumpState.ended;
-        _onJump.Invoke(false);
+        _onJump.Invoke(0);
     }
     private void ContinueJump()
     {
@@ -304,7 +305,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         if (_jumpStartTime + _jumpTime < Time.time)
         {
             _jumpState = JumpState.ended;
-            _onJump.Invoke(false);
+            _onJump.Invoke(0);
         }
     }
     private void JumpReset()

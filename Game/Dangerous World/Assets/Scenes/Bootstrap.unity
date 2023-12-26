@@ -174,7 +174,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loadSceneAsset: {fileID: 102900000, guid: 3d18d9125a5c0a749854fb6e3805a7bc, type: 3}
   _loaderAsset: {fileID: 102900000, guid: 80cd01714e1123a4abd91bf758d41f93, type: 3}
+  _audioMixer: {fileID: 24100000, guid: 19860552005cd084aa9805bbd1d45e5c, type: 2}
   _sceneTransition: {fileID: 174720451}
+  _loadScene: FirstMenu
+  _loader: Loader
 --- !u!1001 &537356130
 PrefabInstance:
   m_ObjectHideFlags: 0

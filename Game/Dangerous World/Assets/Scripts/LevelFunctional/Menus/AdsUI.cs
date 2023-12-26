@@ -84,11 +84,6 @@ public class AdsUI : MonoBehaviour, IInGameMenu
         _animation.Play();
     }
 
-    private void OnDestroy()
-    {
-        Bridge.advertisement.rewardedStateChanged -= OnRewardedStateChanged;
-    }
-
     private void OnValidate()
     {
         if (_animation == null) _animation = GetComponent<Animation>();

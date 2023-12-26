@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 677039870117890548}
   - component: {fileID: 5574097668662321610}
   - component: {fileID: 2512241584320659520}
+  - component: {fileID: 2034231388088441958}
   - component: {fileID: 5023480530569403903}
   m_Layer: 3
   m_Name: Player
@@ -255,7 +256,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onGrounded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
+        m_MethodName: Grounding
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onRotate:
     m_PersistentCalls:
       m_Calls:
@@ -301,16 +314,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onJump:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5023480530569403903}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 7ced229e90d62d34bb37876c32ce56f2, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -331,13 +356,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5023480530569403903}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
+        m_MethodName: Dash
+        m_Mode: 0
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 7ced229e90d62d34bb37876c32ce56f2, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -390,7 +415,7 @@ MonoBehaviour:
   _castDistance: 0.05
   _layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
   _followRotation: 1
 --- !u!114 &5543971962030161071
 MonoBehaviour:
@@ -450,7 +475,7 @@ MonoBehaviour:
   _castDistance: 0.05
   _layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
   _followRotation: 1
 --- !u!114 &8653791836540538967
 MonoBehaviour:
@@ -522,6 +547,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onRevive:
     m_PersistentCalls:
       m_Calls:
@@ -551,6 +588,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2512241584320659520}
         m_TargetAssemblyTypeName: PlayerAnimation, Assembly-CSharp
+        m_MethodName: Rewive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2034231388088441958}
+        m_TargetAssemblyTypeName: PlayerSound, Assembly-CSharp
         m_MethodName: Rewive
         m_Mode: 1
         m_Arguments:
@@ -604,6 +653,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 132776366200012109}
   _anchor: {fileID: 1855280291886020175}
+--- !u!114 &2034231388088441958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171879206904189731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bbff03bb4d5de46b3b50996c11ce12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSource: {fileID: 5023480530569403903}
+  _jump: {fileID: 8300000, guid: 1b509d7fc1ea6fa4e89bc44322a07e31, type: 3}
+  _extraJump: {fileID: 8300000, guid: 6f6a77e597f62734d8c9e98eba60c43e, type: 3}
+  _grounded: {fileID: 8300000, guid: b6aa3555425eacb4dad58797d1567f28, type: 3}
+  _dash: {fileID: 8300000, guid: b022013a88805c74686e47896f7cbee6, type: 3}
+  _death: {fileID: 8300000, guid: 1bd31380bfbb02542936bb40945db3ce, type: 3}
+  _step:
+  - {fileID: 8300000, guid: 5c3ad7be20ca13343a4b9282579ff6d1, type: 3}
+  - {fileID: 8300000, guid: 55d7d533bcb58f44fa80c914392ecf95, type: 3}
+  - {fileID: 8300000, guid: 170fdf7cb1ab7b748a9da1f83491a737, type: 3}
 --- !u!82 &5023480530569403903
 AudioSource:
   m_ObjectHideFlags: 0
@@ -613,7 +684,7 @@ AudioSource:
   m_GameObject: {fileID: 2171879206904189731}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 90305565794556161, guid: 19860552005cd084aa9805bbd1d45e5c, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

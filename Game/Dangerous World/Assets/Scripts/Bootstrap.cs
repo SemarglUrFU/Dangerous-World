@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Bootstrap : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private SceneAsset _loadSceneAsset;
     [SerializeField] private SceneAsset _loaderAsset;
 #endif
+    [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private GameObject _sceneTransition;
     [SerializeField] private string _loadScene;
     [SerializeField] private string _loader;
@@ -14,6 +16,7 @@ public class Bootstrap : MonoBehaviour
 
     private void Start()
     {
+        Prefs.AudioMixerInit(_audioMixer, "Music", "SFX");
         DontDestroyOnLoad(_sceneTransition);
         SceneLoader.BindLoadScreen(_loader);
         SceneLoader.BindTransition(_sceneTransition.GetComponent<ISceneTransition>());
