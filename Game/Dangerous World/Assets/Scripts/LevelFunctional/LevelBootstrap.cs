@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class LevelBootstrap : MonoBehaviour
 {
-    [SerializeField] private int _lifes = 3;
-    [Space]
     [SerializeField] private InGameUI _inGameUI;
     [SerializeField] private InGameMenu _inGameMenu;
     [SerializeField] private FadeTransition _inGameMenuTransition;
@@ -17,8 +15,13 @@ public class LevelBootstrap : MonoBehaviour
         var inputActions = new InputActions();
         Player.Instance.GetComponent<PlayerInput>().Initialize(inputActions);
 
+#if UNITY_EDITOR
+        var lifesCount = LevelLoader.Description?.LevelConfig.Lifes ?? 12;
+#else
+        var lifesCount = LevelLoader.Description.LevelConfig.Lifes;
+#endif
         var lifeCounter = new LifeCounter();
-        lifeCounter.Initialize(_lifes);
+        lifeCounter.Initialize(lifesCount);
         var playerRevive = Player.Instance.GetComponent<PlayerRevive>();
         playerRevive.Initialize(lifeCounter);
 

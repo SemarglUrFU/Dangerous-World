@@ -48,7 +48,7 @@ public class LevelMenu : MonoBehaviour
         var levelState = LevelRepository.GetState(levelConfig.Id);
         UpdateButtonsState(index);
         _levelMenuIndicator.UpdateSelectedLevel(index);
-        _levelMenuState.UpdateVisual(levelConfig.name, levelConfig.Preview, IsLevelUnlocked(index), levelState.Points, levelConfig.Cost);
+        _levelMenuState.UpdateVisual(levelConfig.Name, levelConfig.Preview, IsLevelUnlocked(index), levelState.Points, levelConfig.Cost);
         _selectedLevel = index;
     }
 

@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneAsset: {fileID: 102900000, guid: 5d8178ad9eb4f014aaa7e6efae902907, type: 3}
   _scene: Level_4
+  _name: 4
   _cost: 0
+  _lifes: 3
   _preview: {fileID: 0}

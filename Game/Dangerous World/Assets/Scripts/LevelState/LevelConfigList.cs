@@ -25,6 +25,11 @@ public class LevelConfigList : ScriptableObject
     }
 
 #if UNITY_EDITOR
+    [ContextMenu("Enumerate Levels")]
+    private void Enumerate()
+    {
+        for (var i = 0; i < _levels.Count; i++) { if (_levels[i].Name == "") { _levels[i].__SetName((i + 1).ToString()); } }
+    }
     [ContextMenu("Remove all states")]
     private void RemoveAllStates()
     {

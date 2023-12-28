@@ -5,14 +5,18 @@ using UnityEngine;
 public class LevelConfig : ScriptableObject
 {
     public string Id => _scene;
+    public string Name => _name;
     public Sprite Preview => _preview;
     public int Cost => _cost;
+    public int Lifes => _lifes;
 
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset _sceneAsset;
 #endif
     [SerializeField] private string _scene;
+    [SerializeField] private string _name;
     [SerializeField] private int _cost = 0;
+    [SerializeField][Min(1)] private int _lifes = 3;
     [SerializeField] private Sprite _preview;
 
     [ContextMenu("Pass")]
@@ -53,5 +57,8 @@ public class LevelConfig : ScriptableObject
 #if UNITY_EDITOR
         _scene = _sceneAsset.name;
 #endif
+        if (_name == "") {Debug.LogWarning("Empty scene name");}
     }
+
+    public void __SetName(string name) => _name = name;
 }
