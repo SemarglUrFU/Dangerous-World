@@ -386,17 +386,17 @@ MonoBehaviour:
   _decceleration: 300
   _stopVelocityCutOut: 0.2
   _airAcceleration: 100
-  _airDeceleration: 10
+  _airDeceleration: 100
   _maxSurfaceAngle: 60
   _slideSurfaceAngle: 60
   _jumpTime: 0.2
   _jumpVelocity: {x: 15, y: 20}
-  _jumpCutoffTime: 0.1
+  _jumpCutoffTime: 0.01
   _coyoteTime: 0.1
   _extraJumps: 0
   _dashVelocity: 40
   _dashTime: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 0.5
 --- !u!114 &8644855558782852463
 MonoBehaviour:
   m_ObjectHideFlags: 0

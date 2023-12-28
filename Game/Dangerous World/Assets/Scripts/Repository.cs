@@ -28,7 +28,7 @@ public static class Repository
         PlayerPrefs.Save();
     }
 
-    public static int ReadInt(string key) => PlayerPrefs.GetInt(key, 0);
+    public static int ReadInt(string key, int defaultValue = 0) => PlayerPrefs.GetInt(key, defaultValue);
     public static bool TryReadValue(string key, out int value)
     {
         if (!PlayerPrefs.HasKey(key))
@@ -46,7 +46,7 @@ public static class Repository
         PlayerPrefs.Save();
     }
 
-    public static string ReadString(string key) => PlayerPrefs.GetString(key, "");
+    public static string ReadString(string key, string defaultValue = "") => PlayerPrefs.GetString(key, defaultValue);
     public static bool TryReadValue(string key, out string value)
     {
         if (!PlayerPrefs.HasKey(key))

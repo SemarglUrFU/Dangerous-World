@@ -11,6 +11,7 @@ public class LevelMenuState : MonoBehaviour
     [SerializeField] private Sprite _starsDisableSprite;
     [SerializeField] private GameObject _lock;
     [SerializeField] private TMP_Text _cost;
+    [SerializeField] private Button _button;
     [SerializeField] private Image[] _stars = new Image[3];
 
     public void UpdateVisual(string name, Sprite preview, bool unlocked, int stars = 0, int cost = 0)
@@ -20,6 +21,7 @@ public class LevelMenuState : MonoBehaviour
         if (unlocked)
         {
             _lock.SetActive(false);
+            _button.interactable = true;
             _cost.gameObject.SetActive(false);
             if (stars > 0)
             {
@@ -32,6 +34,7 @@ public class LevelMenuState : MonoBehaviour
         else
         {
             _lock.SetActive(true);
+            _button.interactable = false;
             if (cost > 0)
             {
                 _cost.text = cost.ToString();
@@ -47,6 +50,7 @@ public class LevelMenuState : MonoBehaviour
 
     private void OnValidate()
     {
+        _button = GetComponent<Button>();
         _stars = _starsContainer.GetComponentsInChildren<Image>();
     }
 }

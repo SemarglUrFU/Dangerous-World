@@ -331,8 +331,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     }
     private void StartDash()
     {
-        if (!_isDashing && _dashEndTime + _dashCooldown >= Time.time)
-            return;
+        if (_isDashing || _dashEndTime + _dashCooldown >= Time.time) { return; }
         _dashStartTime = Time.time;
         _dashDirection = _nearWall != 0
             ? -_nearWall : _facingRight ? 1 : -1;
@@ -354,7 +353,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     {
         if (_dashStartTime + _dashTime < Time.time || _nearWall == _dashDirection)
         {
-            StopDash(); return;
+            StopDash();
+            return;
         }
         _rigidbody.velocity = new Vector2(_dashDirection * _dashVelocity, 0);
     }

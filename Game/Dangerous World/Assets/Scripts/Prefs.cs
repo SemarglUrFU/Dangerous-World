@@ -1,10 +1,13 @@
 using System;
+using UnityEngine;
 using UnityEngine.Audio;
 
 public static class Prefs
 {
-    const string KEY_POINTS = "_P";
-    const string SELECTED_LEVEL_KEY = "_SL";
+    const string KEY_POINTS = "P_";
+    const string SELECTED_LEVEL_KEY = "SL_";
+    const string SFX_KEY = "_S";
+    const string MUSIC_KEY = "_M";
 
     public static int Points => Repository.ReadInt(KEY_POINTS);
 
@@ -21,28 +24,16 @@ public static class Prefs
         set => Repository.SaveValue(SELECTED_LEVEL_KEY, value);
     }
 
-    public static void AudioMixerInit(AudioMixer audioMixer, string keyMusic, string keySFX)
-    {
-        _audioMixer = audioMixer;
-        _keyMusic = keyMusic;
-        _keySFX = keySFX;
-    }
     public static bool SoundEnabled
     {
-        get => _soundEnabled;
-        set { _soundEnabled = value; _audioMixer.SetFloat(_keySFX, value ? 0f : -80f);}
+        get => Repository.ReadInt(SFX_KEY, 1) > 0;
+        set => Repository.SaveValue(SFX_KEY, value ? 1 : 0);
     }
     public static bool MusicEnabled
     {
-        get => _musicEnabled;
-        set { _musicEnabled = value; _audioMixer.SetFloat(_keyMusic, value ? 0f : -80f);}
+        get => Repository.ReadInt(MUSIC_KEY, 1) > 0;
+        set => Repository.SaveValue(MUSIC_KEY, value ? 1 : 0);
     }
-    private static bool _soundEnabled = true;
-    private static bool _musicEnabled = true;
-    private static AudioMixer _audioMixer;
-    private static string _keyMusic;
-    private static string _keySFX;
-
 
     public static void __ResetPoints()
     {

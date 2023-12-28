@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,14 +32,15 @@ public class LevelFinish : MonoBehaviour
 
     private static int GetStars(int collectedCoins, int totalCoins)
     {
-        var starCost = totalCoins / 3;
-        return collectedCoins == totalCoins ? 3 : collectedCoins / starCost;
+        if (totalCoins == 0) {return 3;}
+        var starCost = totalCoins / 3f;
+        return (int)MathF.Ceiling(collectedCoins / starCost);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.TryGetComponent<PlayerRevive>(out var playerRevive)
-            && !playerRevive.Dead && (Object)_inGameMenu.CurrentMenu != _endLevel)
+            && !playerRevive.Dead && (System.Object)_inGameMenu.CurrentMenu != _endLevel)
         {
             _collider.enabled = false;
             playerRevive.Invulnerable = true;
