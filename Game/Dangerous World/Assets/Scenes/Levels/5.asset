@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f770b48546eb264384c0386df03ca6f, type: 3}
-  m_Name: Level_6
+  m_Name: 5
   m_EditorClassIdentifier: 
   _sceneAsset: {fileID: 102900000, guid: 8b18b3491e9418e418de6592c64e259f, type: 3}
-  _scene: Level_6
+  _scene: 5
   _name: 6
-  _cost: 0
-  _lifes: 3
+  _cost: 6
+  _lifes: 8
   _preview: {fileID: 0}
