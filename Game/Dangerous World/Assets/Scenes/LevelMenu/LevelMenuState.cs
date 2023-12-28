@@ -14,6 +14,8 @@ public class LevelMenuState : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private Image[] _stars = new Image[3];
 
+    public Button Button => _button;
+
     public void UpdateVisual(string name, Sprite preview, bool unlocked, int stars = 0, int cost = 0)
     {
         _name.text = name;

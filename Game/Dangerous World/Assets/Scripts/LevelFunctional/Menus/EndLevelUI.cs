@@ -114,6 +114,11 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
         LevelLoader.LoadLevel(_nextLevelState);
     }
 
+    private void OnDestroy()
+    {
+        if (_inputActions != null) { _inputActions.UI.Close.started -= OpenLevelMenu; }
+    }
+
     private void OnValidate()
     {
         if (_animation == null) _animation = GetComponent<Animation>();

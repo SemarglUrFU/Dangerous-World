@@ -51,6 +51,11 @@ public class PauseUI : MonoBehaviour, IInGameMenu
 
     private void Close(InputAction.CallbackContext ctx) => Close();
 
+    private void OnDestroy()
+    {
+        if (_inputActions != null) { _inputActions.UI.Close.started -= Close; }
+    }
+
     private void OnValidate()
     {
         if (_animation == null) _animation = GetComponent<Animation>();

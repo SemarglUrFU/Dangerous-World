@@ -39,6 +39,7 @@ public class LevelMenu : MonoBehaviour
     public void TryLoadSelectedLevel()
     {
         if (!IsLevelUnlocked(_selectedLevel)) { return; }
+        _levelMenuState.Button.interactable = false;
         LoadLevel(_selectedLevel);
     }
 

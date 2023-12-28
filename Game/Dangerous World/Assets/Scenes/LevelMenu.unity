@@ -464,6 +464,7 @@ MonoBehaviour:
   _starsDisableSprite: {fileID: -1568345289, guid: 7f788fd29d25bb64b96b01c523eb66dd, type: 3}
   _lock: {fileID: 1832272376}
   _cost: {fileID: 1299580630}
+  _button: {fileID: 70682226}
   _stars:
   - {fileID: 852923655}
   - {fileID: 2011339605}
@@ -942,7 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_EffectColor: {r: 0.39607847, g: 0.39607847, b: 0.39607847, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
 --- !u!1 &841777387
