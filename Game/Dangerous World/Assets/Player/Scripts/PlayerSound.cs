@@ -15,11 +15,11 @@ public class PlayerSound : MonoBehaviour
     private bool _isDead;
     private readonly System.Random _random = new();
 
-    public void Grounding(bool grounded)
+    public void Grounding()
     {
-        _isGrounded = grounded;
-        if (grounded && !_isDead) { _audioSource.PlayOneShot(_grounded); }
+        if (!_isDead) { _audioSource.PlayOneShot(_grounded); }
     }
+    public void VerticalState(int direction) => _isGrounded = direction == 0;
     public void Dash(bool started) { if (started) { _audioSource.PlayOneShot(_dash); } }
     public void Jump(int state)
     {

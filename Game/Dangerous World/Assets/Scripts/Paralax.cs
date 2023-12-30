@@ -8,6 +8,8 @@ public class Paralax : MonoBehaviour
 {
     [SerializeField] private Transform follow;
     [SerializeField] private List<ParalaxTarget> targets;
+    [Header("To apply width click 'Update Width' in context menu")]
+    [SerializeField] private float _width;
 
     private Vector2 _initializePosition;
 
@@ -20,7 +22,7 @@ public class Paralax : MonoBehaviour
     private void LateUpdate()
     {
         var offset = (Vector2)follow.position - _initializePosition;
-        targets.ForEach((target) => target.Move(offset));
+        targets.ForEach((target) => target.MoveTo(offset));
     }
 
     [Serializable]
@@ -30,12 +32,12 @@ public class Paralax : MonoBehaviour
         [SerializeField] public Vector2 _scale;
         private Vector2 _initializePosition;
         public void Initialize() => _initializePosition = _transform.position;
-        public void Move(Vector2 position) => _transform.position = _initializePosition + position * _scale;
+        public void MoveTo(Vector2 position) => _transform.position = _initializePosition + position * _scale;
     }
 
     private void OnValidate()
     {
-        if (follow == null) { follow = Camera.main?.transform; }
+        if (follow == null) { follow = Camera.main != null ? Camera.main.transform : null; }
         if (targets.Count == 0) {AutoFill();}
     }
 
@@ -47,10 +49,22 @@ public class Paralax : MonoBehaviour
             .Select(target => new ParalaxTarget() { _transform = target, _scale = Vector2.one})
             .ToList();
     }
-    [ContextMenu("AlignTargets")]
+    [ContextMenu("Align Targets")]
     private void AlignTargets()
     {
         targets.ForEach(target => 
             target._transform.position = Camera.main.transform.position + Vector3.down*Camera.main.orthographicSize);
+    }
+
+    [ContextMenu("Update Width")]
+    private void UpdateWidth()
+    {
+        targets.ForEach(target => {
+            var configurable = target._transform.GetComponentsInChildren<SpriteRenderer>()
+                .Where(sprite => sprite.drawMode != SpriteDrawMode.Simple);
+            foreach (var sprite in configurable) {
+                sprite.size = new(_width, sprite.size.y);
+            }   
+        }); 
     }
 }

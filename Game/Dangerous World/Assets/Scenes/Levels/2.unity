@@ -563,11 +563,11 @@ PrefabInstance:
       objectReference: {fileID: 1196407859}
     - target: {fileID: 7596906567123807518, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.37035
+      value: -4.2682457
       objectReference: {fileID: 0}
     - target: {fileID: 7596906567123807518, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.023141
+      value: -8.021551
       objectReference: {fileID: 0}
     - target: {fileID: 9100235061791316847, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
@@ -698,6 +698,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
+--- !u!4 &201312052 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7596906567123807518, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
+  m_PrefabInstance: {fileID: 201312051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &224895281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4819,7 +4824,23 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3195107132659441350, guid: 12b8b94e09bafe240aaa79737a67497e, type: 3}
+      propertyPath: _width
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3195107132659441350, guid: 12b8b94e09bafe240aaa79737a67497e, type: 3}
+      propertyPath: follow
+      value: 
+      objectReference: {fileID: 201312052}
     - target: {fileID: 3530569380523473560, guid: 12b8b94e09bafe240aaa79737a67497e, type: 3}
+      propertyPath: m_Size.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3631947275395595640, guid: 12b8b94e09bafe240aaa79737a67497e, type: 3}
+      propertyPath: m_Size.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150356826578144064, guid: 12b8b94e09bafe240aaa79737a67497e, type: 3}
       propertyPath: m_Size.x
       value: 200
       objectReference: {fileID: 0}
@@ -19323,7 +19344,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 201312051}
-  - {fileID: 1698588385}
   - {fileID: 493323384}
-  - {fileID: 420324755}
   - {fileID: 849504286}
+  - {fileID: 1698588385}
+  - {fileID: 420324755}

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour, IExtraJumping
 {
-    [SerializeField] private UnityEvent<bool> _onGrounded;
+    [SerializeField] private UnityEvent _onGrounded;
     [SerializeField] private UnityEvent<float> _onRotate;
     [SerializeField] private UnityEvent<int> _onVerticalDirectionChange;
     [SerializeField] private UnityEvent<float> _onMoving;
@@ -88,8 +88,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (!_wasGrounded)
             {
                 _wasGrounded = true;
-                _onGrounded.Invoke(true);
                 _verticalDirection = 0;
+                _onGrounded.Invoke();
                 _onVerticalDirectionChange.Invoke(0);
             }
             var normal = _centerGroundSensor.IsIntersect ? _centerGroundSensor.IntersectHit.normal : _groundSensor.IntersectHit.normal;
@@ -107,7 +107,6 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             if (_wasGrounded)
             {
                 SmoothRotate(0);
-                _onGrounded.Invoke(false);
                 _movingPlatformVelocity = Vector2.zero;
                 _wasGrounded = false;
             }
@@ -203,9 +202,10 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             var acceleration = _input.move != 0 ? _airAcceleration : _airDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, targetXVelocity, acceleration * Time.deltaTime);
         }
-        _onMoving.Invoke(velocity.x - _movingPlatformVelocity.x);
+        var _movingRelativeVelocity = velocity.x - _movingPlatformVelocity.x;
+        if (MathF.Abs(_movingRelativeVelocity) > 1f) { _onMoving.Invoke(_movingRelativeVelocity); }
         _rigidbody.velocity = velocity;
-        _onMoving.Invoke(velocity.x);
+
     }
     #endregion Walking
 
