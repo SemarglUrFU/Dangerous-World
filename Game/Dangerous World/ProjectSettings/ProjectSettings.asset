@@ -391,11 +391,11 @@ PlayerSettings:
   openGLRequireES31AEP: 0
   openGLRequireES32: 0
   m_TemplateCustomTags:
-    GAME_DISTRIBUTION_GAME_ID: 0
-    OVERLAY_BACKGROUND_COLOR: 333333
+    GAME_DISTRIBUTION_GAME_ID: 1
+    OVERLAY_BACKGROUND_COLOR: '#333333'
     PRODUCT_DESCRIPTION: 
-    PROGRESS_BAR_BACKGROUND_COLOR: 4F4F4F
-    PROGRESS_BAR_FILL_COLOR: 818281
+    PROGRESS_BAR_BACKGROUND_COLOR: '#4F4F4F'
+    PROGRESS_BAR_FILL_COLOR: '#818281'
   mobileMTRendering:
     Android: 1
     iPhone: 1
@@ -654,7 +654,7 @@ PlayerSettings:
   webGLTemplate: PROJECT:Bridge
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
-  webGLCompressionFormat: 0
+  webGLCompressionFormat: 1
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
@@ -682,7 +682,7 @@ PlayerSettings:
     QNX: 1
     Stadia: 1
     VisionOS: 1
-    WebGL: 1
+    WebGL: 4
     Windows Store Apps: 1
     XboxOne: 1
     iPhone: 1
