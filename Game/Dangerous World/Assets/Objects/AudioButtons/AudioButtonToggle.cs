@@ -17,7 +17,7 @@ public class AudioButtonToggle : MonoBehaviour
         if (AudioComponent.Instance == null) { return; }
 #endif
         var value = (_type == AudioButtonToggleType.SFX) ? AudioComponent.Instance.SoundEnabled : AudioComponent.Instance.MusicEnabled;
-        if (value) { _icon.sprite = _enabledSprite; } else { _icon.sprite = _enabledSprite; }
+        if (value) { _icon.sprite = _enabledSprite; } else { _icon.sprite = _disabledSprite; }
     }
 
     public void Toggle()

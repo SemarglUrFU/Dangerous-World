@@ -15,6 +15,6 @@ MonoBehaviour:
   _sceneAsset: {fileID: 102900000, guid: 294a60fc9601161408702599278b594f, type: 3}
   _scene: 4
   _name: 5
-  _cost: 0
-  _lifes: 9
-  _preview: {fileID: 0}
+  _cost: 7
+  _lifes: 10
+  _preview: {fileID: 21300000, guid: 8048faf669b3b3947a9a6137ece8bf29, type: 3}

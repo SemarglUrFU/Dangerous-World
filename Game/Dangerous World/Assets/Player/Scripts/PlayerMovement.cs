@@ -203,7 +203,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
             velocity.x = Mathf.MoveTowards(velocity.x, targetXVelocity, acceleration * Time.deltaTime);
         }
         var _movingRelativeVelocity = velocity.x - _movingPlatformVelocity.x;
-        if (MathF.Abs(_movingRelativeVelocity) > 1f) { _onMoving.Invoke(_movingRelativeVelocity); }
+        if (MathF.Abs(_movingRelativeVelocity) > 0.1f) { _onMoving.Invoke(_movingRelativeVelocity); }
+        else { _onMoving.Invoke(0f); }
         _rigidbody.velocity = velocity;
 
     }
