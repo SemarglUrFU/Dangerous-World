@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f770b48546eb264384c0386df03ca6f, type: 3}
   m_Name: 4
   m_EditorClassIdentifier: 
-  _sceneAsset: {fileID: 102900000, guid: 294a60fc9601161408702599278b594f, type: 3}
+  _sceneAsset: {fileID: 102900000, guid: 5d8178ad9eb4f014aaa7e6efae902907, type: 3}
   _scene: 4
-  _name: 5
-  _cost: 7
+  _name: 4
+  _cost: 8
   _lifes: 10
-  _preview: {fileID: 21300000, guid: 8048faf669b3b3947a9a6137ece8bf29, type: 3}
+  _preview: {fileID: 21300000, guid: 7cf768f7462a99c4d81021d1f6bc50d2, type: 3}
