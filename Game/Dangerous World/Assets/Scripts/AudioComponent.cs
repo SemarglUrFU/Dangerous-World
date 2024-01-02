@@ -14,6 +14,7 @@ public class AudioComponent : MonoBehaviour
     public void Initialize()
     {
         DontDestroyOnLoad(this);
+        _audioSource.Play();
         MusicEnabled = MusicEnabled;
         SoundEnabled = SoundEnabled;
         Instance = this;
@@ -24,8 +25,8 @@ public class AudioComponent : MonoBehaviour
         get { return Prefs.MusicEnabled; }
         set
         {
-            if (value){ _audioMixer.SetFloat(MUSIC_KEY, 0); _audioSource.Play();}
-            else{ _audioMixer.SetFloat(MUSIC_KEY, -80); _audioSource.Stop();}
+            if (value){ _audioMixer.SetFloat(MUSIC_KEY, 0); _audioSource.UnPause();}
+            else{ _audioMixer.SetFloat(MUSIC_KEY, -80); _audioSource.Pause();}
             Prefs.MusicEnabled = value;
         }
     }
