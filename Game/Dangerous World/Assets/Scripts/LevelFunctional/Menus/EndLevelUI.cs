@@ -11,7 +11,7 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset _levelMenuAsset;
 #endif
-    [SerializeField] private TMP_Text _levelNumber;
+    [SerializeField] private TMP_Text _levelName;
     [SerializeField] private TMP_Text _header;
     [SerializeField] private TMP_Text _coins;
     [SerializeField] private TMP_Text _stars;
@@ -35,7 +35,7 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
     public void Initialize(InputActions inputActions, AdsUI adsUI, LifeCounter lifeCounter, CoinsCounter coinsCounter)
     {
         _inputActions = inputActions;
-        _levelNumber.text = LevelLoader.Number.ToString();
+        _levelName.text = $"Уровень «{LevelLoader.Description.LevelConfig.Name}»";
         _menuBtn.onClick.AddListener(OpenLevelMenu);
         _adsUI = adsUI;
         _adsUI.OnCloseWithNoReward += OpenEndLevelMenu;
