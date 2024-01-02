@@ -8,6 +8,7 @@ public class AudioComponent : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioMixer _audioMixer;
 
+    const string MASTER_KEY = "Master";
     const string MUSIC_KEY = "Music";
     const string SFX_KEY = "SFX";
 
@@ -40,6 +41,8 @@ public class AudioComponent : MonoBehaviour
             Prefs.SoundEnabled = value;
         }
     }
+
+    public bool Mute{set => _audioMixer.SetFloat(MASTER_KEY, value ? -80f : 0f);}
 
     private void OnValidate()
     {

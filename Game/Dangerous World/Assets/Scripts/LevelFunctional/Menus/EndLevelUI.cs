@@ -45,7 +45,7 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
 
     public void Set(bool win, CoinsCounter coinsCounter, int stars)
     {
-        _coins.text = $"{coinsCounter.Сollected} / {coinsCounter.Total}";
+        _coins.text = $"{coinsCounter.Collected} / {coinsCounter.Total}";
         MenuOpenAction = OpenEndLevelMenu;
         _stars.text = $"{stars} / 3";
         if (win)

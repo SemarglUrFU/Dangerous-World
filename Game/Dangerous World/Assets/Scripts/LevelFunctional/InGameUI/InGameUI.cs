@@ -12,8 +12,8 @@ public class InGameUI : MonoBehaviour
         lifeCounter.OnLifesSpend += _lifesUI.Spend;
         lifeCounter.OnSet += _lifesUI.Set;
 
-        _coinsUI.Initialize(coinsCounter.Total, coinsCounter.Сollected);
-        coinsCounter.OnAdd += () => _coinsUI.SetCollected(coinsCounter.Сollected);
-        coinsCounter.OnRemove += () => _coinsUI.SetCollected(coinsCounter.Сollected);
+        _coinsUI.Initialize(coinsCounter.Total, coinsCounter.Collected);
+        coinsCounter.OnAdd += () => _coinsUI.SetCollected(coinsCounter.Collected);
+        coinsCounter.OnRemove += () => _coinsUI.SetCollected(coinsCounter.Collected);
     }
 }

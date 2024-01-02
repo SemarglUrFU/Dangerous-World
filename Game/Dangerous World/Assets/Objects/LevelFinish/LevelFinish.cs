@@ -13,7 +13,7 @@ public class LevelFinish : MonoBehaviour
     private InGameMenu _inGameMenu;
     private EndLevelUI _endLevel;
 
-    public static int GetCurrentStars(CoinsCounter coinsCounter) => GetStars(coinsCounter.Сollected, coinsCounter.Total);
+    public static int GetCurrentStars(CoinsCounter coinsCounter) => GetStars(coinsCounter.Collected, coinsCounter.Total);
 
     public void Initialize(CoinsCounter coinsCounter, InGameMenu inGameMenu, EndLevelUI endLevel)
     {
@@ -32,9 +32,9 @@ public class LevelFinish : MonoBehaviour
 
     private static int GetStars(int collectedCoins, int totalCoins)
     {
-        if (totalCoins == 0) {return 3;}
+        if (totalCoins == collectedCoins || totalCoins == 0) { return 3; }
         var starCost = totalCoins / 3f;
-        return (int)MathF.Ceiling(collectedCoins / starCost);
+        return (int)(collectedCoins / starCost);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

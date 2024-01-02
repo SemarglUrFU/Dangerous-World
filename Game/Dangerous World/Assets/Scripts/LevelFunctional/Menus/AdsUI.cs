@@ -52,13 +52,22 @@ public class AdsUI : MonoBehaviour, IInGameMenu
 
     private void OnRewardedStateChanged(RewardedState state)
     {
-        if (state == RewardedState.Opened) { Time.timeScale = 0; }
-        else if (state == RewardedState.Failed) { OnAdsLoadError(); }
+        if (state == RewardedState.Opened)
+        {
+            Time.timeScale = 0;
+            AudioComponent.Instance.Mute = true;
+        }
+        else if (state == RewardedState.Failed)
+        {
+            OnAdsLoadError();
+            AudioComponent.Instance.Mute = false;
+        }
         else if (state == RewardedState.Rewarded) { _gotReward = true; }
         else if (state == RewardedState.Closed)
         {
             Time.timeScale = 1;
             if (_gotReward) { CloseWithReward(); }
+            AudioComponent.Instance.Mute = false;
         }
     }
 
