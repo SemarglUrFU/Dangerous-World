@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
             if (_wasGrounded)
             {
-                SmoothRotate(0);
+                Rotate(0);
                 _movingPlatformVelocity = Vector2.zero;
                 _wasGrounded = false;
             }
@@ -129,6 +129,11 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         {
             angle = Math.Clamp(angle, -_maxSurfaceAngle, _maxSurfaceAngle);
             angle = Mathf.MoveTowards(_previousAngle, angle, _maxRotationSpeed);
+            Rotate(angle);
+        }
+
+        void Rotate(float angle)
+        {
             _onRotate.Invoke(angle);
             _previousAngle = angle;
         }
@@ -137,17 +142,18 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
     #region Walking
     [Header("Walking")]
-    [SerializeField] private float _walkSpeed = 5;
-    [SerializeField] private float _slideSpeed = 5;
-    [SerializeField] private float _airSpeed = 10;
-    [SerializeField] private float _acceleration = 50;
-    [SerializeField] private float _decceleration = 100;
+    [SerializeField] private float _walkSpeed = 20f;
+    [SerializeField] private float _slideSpeed = 30f;
+    [SerializeField] private float _airSpeed = 15f;
+    [SerializeField] private float _acceleration = 50f;
+    [SerializeField] private float _decceleration = 30f;
+    [SerializeField] private float _afterFallDecceleration = 500f;
     [SerializeField][Range(0f, max: 1f)] private float _stopVelocityCutOut = 0.05f;
-    [SerializeField] private float _airAcceleration = 20;
-    [SerializeField] private float _airDeceleration = 5;
-    [SerializeField][Range(1, 89)] private float _maxSurfaceAngle = 45;
-    [SerializeField][Range(1, 89)] private float _slideSurfaceAngle = 45;
-    private float _wallSurfaceAngle = 90;
+    [SerializeField] private float _airAcceleration = 50f;
+    [SerializeField] private float _airDeceleration = 30f;
+    [SerializeField][Range(1, 89)] private float _maxSurfaceAngle = 60f;
+    [SerializeField][Range(1, 89)] private float _slideSurfaceAngle = 60f;
+    [SerializeField][Range(80, 90)] private float _wallSurfaceAngle = 90f;
     private float _wallJumpLockUntil = float.MinValue;
 
     private void HandleMove()
@@ -172,9 +178,9 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                     var alongGround = new Vector2(groundNormal.y, -groundNormal.x);
                     var targetVelocity = _input.move * _walkSpeed * alongGround + _movingPlatformVelocity;
                     var currentDirection = Math.Sign(velocity.x - _movingPlatformVelocity.x);
-                    var acceleration = (currentDirection != 0 && (direction != currentDirection)
-                        ? _decceleration : _acceleration) * (1 + angle / _maxSurfaceAngle);
-                    velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
+                    var acceleration = currentDirection != 0 && direction != currentDirection
+                        ? (_wasGrounded ? _decceleration : _afterFallDecceleration) : _acceleration;
+                    velocity = Vector2.MoveTowards(velocity, targetVelocity, acceleration * (1 + angle / _maxSurfaceAngle) * Time.deltaTime);
                 }
             }
             else
@@ -182,9 +188,9 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 // Deccelerate
                 if (_groundAngle < _maxSurfaceAngle && !_groundSensor.IntersectHit.collider.TryGetComponent<SurfaceEffector2D>(out var _))
                 {
-                    velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, _decceleration * Time.deltaTime);
-                    if ((velocity - _movingPlatformVelocity).magnitude < _stopVelocityCutOut)
-                        _rigidbody.sharedMaterial = maxFriction;
+                    var decceleration = _wasGrounded ? _decceleration : _afterFallDecceleration;
+                    velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, decceleration * Time.deltaTime);
+                    if ((velocity - _movingPlatformVelocity).magnitude < _stopVelocityCutOut || !_wasGrounded) { _rigidbody.sharedMaterial = maxFriction; }
                 }
             }
             // Slide
@@ -253,9 +259,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         {
             if (_groundAngle > _slideSurfaceAngle)
             {
-                const float pulseVelocity = 15f;
                 var velocity = _rigidbody.velocity;
-                var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * pulseVelocity;
+                var pulse = MathF.Sign(_groundSensor.IntersectHit.normal.x) * _jumpVelocity.y;
                 velocity.x = pulse > 0 ? Mathf.Max(velocity.x, pulse) : Mathf.Min(velocity.x, pulse);
                 _rigidbody.velocity = velocity;
             }
@@ -277,10 +282,9 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         }
         else if (_extraJumpsLeft > 0)
         {
-            var inputDirection = math.sign(_input.move);
-            var rigidbodyVelocity = _rigidbody.velocity;
+            var inputDirection = MathF.Sign(_input.move);
             if (inputDirection != 0)
-                _rigidbody.velocity = new(_jumpVelocity.x * inputDirection, rigidbodyVelocity.y);
+                _rigidbody.velocity = new(_jumpVelocity.x * inputDirection, _rigidbody.velocity.y);
 
             _extraJumpsLeft--;
             _jumpState = JumpState.started;

@@ -390,20 +390,22 @@ MonoBehaviour:
   maxFriction: {fileID: 6200000, guid: d0c384a3788692e4ea4fcc77b4d712ad, type: 2}
   minFriction: {fileID: 6200000, guid: bbdacfbe8295e284c80f1633bcefce7e, type: 2}
   _facingRight: 1
-  _maxRotationSpeed: 10
+  _maxRotationSpeed: 7
   _walkSpeed: 20
   _slideSpeed: 30
   _airSpeed: 15
-  _acceleration: 100
-  _decceleration: 500
-  _stopVelocityCutOut: 0.2
+  _acceleration: 50
+  _decceleration: 70
+  _afterFallDecceleration: 10000
+  _stopVelocityCutOut: 0.05
   _airAcceleration: 100
   _airDeceleration: 30
   _maxSurfaceAngle: 60
   _slideSurfaceAngle: 60
+  _wallSurfaceAngle: 90
   _jumpTime: 0.2
-  _jumpVelocity: {x: 20, y: 20}
-  _jumpCutoffTime: 0.05
+  _jumpVelocity: {x: 15, y: 20}
+  _jumpCutoffTime: 0
   _coyoteTime: 0.1
   _extraJumps: 0
   _dashVelocity: 40
@@ -484,7 +486,7 @@ MonoBehaviour:
   _castOffset: {x: 0, y: 0.44}
   _castRadius: 0.44
   _castDirection: {x: 0, y: -1}
-  _castDistance: 0.2
+  _castDistance: 0.1
   _layerMask:
     serializedVersion: 2
     m_Bits: 129
@@ -536,8 +538,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 677039870117890548}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
+        m_TargetAssemblyTypeName: CheckPointObserver, Assembly-CSharp
+        m_MethodName: set_Enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -587,8 +589,8 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 677039870117890548}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
+        m_TargetAssemblyTypeName: CheckPointObserver, Assembly-CSharp
+        m_MethodName: set_Enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

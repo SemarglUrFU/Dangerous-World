@@ -53,11 +53,6 @@ public class PlayerRevive : MonoBehaviour, IDamageble
         }
     }
 
-    private void Awake()
-    {
-
-    }
-
     [ContextMenu("Validate")]
     private void OnValidate()
     {

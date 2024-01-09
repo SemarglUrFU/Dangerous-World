@@ -86,7 +86,7 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
     private void OnLiveReward()
     {
         var lifes = Mathf.RoundToInt(_lifeCounter.Count * 0.5f + 0.01f);
-        _lifeCounter.Set((int)lifes);
+        _lifeCounter.Set(lifes);
         OnClose?.Invoke(this);
     }
 

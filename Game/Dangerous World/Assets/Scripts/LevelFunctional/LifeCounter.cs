@@ -9,6 +9,8 @@ public class LifeCounter
     public int Count { get; private set; }
     public int Left { get; private set; }
 
+    public LifeCounter(int count) => Initialize(count);
+
     public void Initialize(int count, int left = -1)
     {
         Count = count;

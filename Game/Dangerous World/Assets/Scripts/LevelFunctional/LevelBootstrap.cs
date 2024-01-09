@@ -16,12 +16,11 @@ public class LevelBootstrap : MonoBehaviour
         Player.Instance.GetComponent<PlayerInput>().Initialize(inputActions);
 
 #if UNITY_EDITOR
-        var lifesCount = LevelLoader.Description?.LevelConfig.Lifes ?? 12;
+        var lifesCount = LevelLoader.Description?.LevelConfig.Lifes ?? 3;
 #else
         var lifesCount = LevelLoader.Description.LevelConfig.Lifes;
 #endif
-        var lifeCounter = new LifeCounter();
-        lifeCounter.Initialize(lifesCount);
+        var lifeCounter = new LifeCounter(lifesCount);
         var playerRevive = Player.Instance.GetComponent<PlayerRevive>();
         playerRevive.Initialize(lifeCounter);
 
@@ -34,18 +33,20 @@ public class LevelBootstrap : MonoBehaviour
         _inGameUI.Initialize(lifeCounter, coinsCounter);
 
         _pauseUI.Initialize(inputActions);
+#if !UNITY_EDITOR
         _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter, coinsCounter);
+#endif
         _inGameMenu.Initialize(inputActions, _inGameMenuTransition);
         _adsUI.Initialize(inputActions);
         lifeCounter.OnLifesOver += () =>
         {
 #if UNITY_EDITOR
-            if (LevelLoader.Number == 0) _endLevelUI.Set(false, coinsCounter, -1);
-            else _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
+            if (LevelLoader.Number == 0) { lifeCounter.Set(1); }
+            else {_endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points); _inGameMenu.OpenMenu(_endLevelUI); }
 #else
             _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
-#endif
             _inGameMenu.OpenMenu(_endLevelUI);
+#endif
         };
         inputActions.UI.Enable();
 
