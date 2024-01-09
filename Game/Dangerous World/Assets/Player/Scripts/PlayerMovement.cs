@@ -369,7 +369,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     private readonly Input _input = new();
     public void InputMove(float value)
     {
-        _input.move = (math.abs(value) > 0.2) ? value : 0;
+        _input.move = (MathF.Abs(value) > 0.2) ? value : 0;
     }
 
     public void SetInputJump(bool value)

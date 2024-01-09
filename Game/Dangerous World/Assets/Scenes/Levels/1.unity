@@ -15186,6 +15186,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8167409060288402724, guid: 39e2f3795edfa5143bcdaf049052510b, type: 3}
+      propertyPath: _decceleration
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167409060288402724, guid: 39e2f3795edfa5143bcdaf049052510b, type: 3}
       propertyPath: _onGrounded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
@@ -18437,7 +18441,7 @@ PrefabInstance:
       objectReference: {fileID: 87676031}
     - target: {fileID: 7596906567123807518, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.2198257
+      value: -3.1723251
       objectReference: {fileID: 0}
     - target: {fileID: 7596906567123807518, guid: d473481022b0c8b40944e16a41f9ad43, type: 3}
       propertyPath: m_LocalPosition.y

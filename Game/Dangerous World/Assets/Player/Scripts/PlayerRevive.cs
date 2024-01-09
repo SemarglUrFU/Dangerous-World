@@ -9,7 +9,7 @@ public class PlayerRevive : MonoBehaviour, IDamageble
     [SerializeField] private FadeTransition _transition;
     [SerializeField] private CheckPointObserver _checkPointObserver;
 
-    public bool Invulnerable { get; set ; } = false;
+    public bool Invulnerable { get; set; } = false;
     public bool Dead { get; set; } = false;
     public UnityEvent OnNewCheckPoint => _checkPointObserver.OnNewCheckPoint;
     public UnityEvent OnDeath => _onDeath;
@@ -17,7 +17,7 @@ public class PlayerRevive : MonoBehaviour, IDamageble
 
     private LifeCounter _lifeCounter;
 
-    public void Initialize(LifeCounter lifeCounter) 
+    public void Initialize(LifeCounter lifeCounter)
     {
         _lifeCounter = lifeCounter;
         _lifeCounter.OnSet += OnSetLifes;
@@ -25,7 +25,7 @@ public class PlayerRevive : MonoBehaviour, IDamageble
 
     public bool ApplyDamage()
     {
-        if (Dead || Invulnerable) {return false;}
+        if (Dead || Invulnerable) { return false; }
         Dead = true;
         _onDeath.Invoke();
         if (_lifeCounter.Spend()) { Revive(); }
@@ -37,7 +37,8 @@ public class PlayerRevive : MonoBehaviour, IDamageble
         _transition.PlayIn();
         _transition.OnCurrentAnimationEnded.AddListener(ContinueRevive);
 
-        void ContinueRevive(){
+        void ContinueRevive()
+        {
             _onRevive.Invoke();
             transform.position = _checkPointObserver.Position;
             _transition.PlayOut();

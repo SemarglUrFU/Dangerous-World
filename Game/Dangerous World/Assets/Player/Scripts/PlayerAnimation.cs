@@ -16,8 +16,9 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void Rewive()
     {
-        _animator.SetBool("Dead", false);
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Rotate(0);
+        _animator.SetBool("Dead", false);
     }
 
     public void Rotate(float angle) => _anchor.eulerAngles = new(0, 0, angle);

@@ -36,16 +36,23 @@ public class LevelBootstrap : MonoBehaviour
         _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter);
         _inGameMenu.Initialize(inputActions, _inGameMenuTransition);
         _adsUI.Initialize(inputActions);
+#if UNITY_EDITOR
         lifeCounter.OnLifesOver += () =>
         {
-#if UNITY_EDITOR
             if (LevelLoader.Number == 0) { lifeCounter.Set(1); }
-            else {_endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points); _inGameMenu.OpenMenu(_endLevelUI); }
-#else
-            _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
-            _inGameMenu.OpenMenu(_endLevelUI);
-#endif
+            else
+            {
+                _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
+                _inGameMenu.OpenMenu(_endLevelUI);
+            }
         };
+#else
+        lifeCounter.OnLifesOver += () =>
+        {
+            _endLevelUI.Set(false, coinsCounter, LevelLoader.Description.LevelState.Points);
+            _inGameMenu.OpenMenu(_endLevelUI);  
+        };
+#endif
         inputActions.UI.Enable();
 
 
