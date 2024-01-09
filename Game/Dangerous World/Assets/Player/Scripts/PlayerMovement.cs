@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
     [SerializeField] private Sensor _centerGroundSensor;
 
     [SerializeField] private Transform _visualAchor;
-    [SerializeField] private PhysicsMaterial2D maxFriction;
-    [SerializeField] private PhysicsMaterial2D minFriction;
+    [SerializeField] private PhysicsMaterial2D _maxFriction;
+    [SerializeField] private PhysicsMaterial2D _minFriction;
 
     private float _defaultGravityScale;
 
@@ -165,7 +165,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
         _facingRight = GetRotationByDirection(direction);
 
-        _rigidbody.sharedMaterial = minFriction;
+        _rigidbody.sharedMaterial = _minFriction;
         if (_groundSensor.IsIntersect)
         {
             var groundNormal = _groundSensor.IntersectHit.normal;
@@ -190,7 +190,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
                 {
                     var decceleration = _wasGrounded ? _decceleration : _afterFallDecceleration;
                     velocity = Vector2.MoveTowards(velocity, _movingPlatformVelocity, decceleration * Time.deltaTime);
-                    if ((velocity - _movingPlatformVelocity).magnitude < _stopVelocityCutOut || !_wasGrounded) { _rigidbody.sharedMaterial = maxFriction; }
+                    if ((velocity - _movingPlatformVelocity).magnitude < _stopVelocityCutOut || !_wasGrounded) { _rigidbody.sharedMaterial = _maxFriction; }
                 }
             }
             // Slide
@@ -203,7 +203,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         }
         else
         {
-            _rigidbody.sharedMaterial = minFriction;
+            _rigidbody.sharedMaterial = _minFriction;
             var targetXVelocity = _airSpeed * _input.move;
             var acceleration = _input.move != 0 ? _airAcceleration : _airDeceleration;
             velocity.x = Mathf.MoveTowards(velocity.x, targetXVelocity, acceleration * Time.deltaTime);
@@ -341,7 +341,7 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
         _dashDirection = _nearWall != 0
             ? -_nearWall : _facingRight ? 1 : -1;
         _rigidbody.gravityScale = 0;
-        _rigidbody.sharedMaterial = minFriction;
+        _rigidbody.sharedMaterial = _minFriction;
         _facingRight = GetRotationByDirection(_dashDirection);
         _isDashing = true;
         _onDash.Invoke(true);
@@ -393,6 +393,14 @@ public class PlayerMovement : MonoBehaviour, IExtraJumping
 
     }
     #endregion Input
+
+    private void OnDisable()
+    {
+        _rigidbody.gravityScale = _defaultGravityScale;
+        _rigidbody.sharedMaterial = _maxFriction;
+        if (_isDashing) { StopDash(); }
+        _jumpState = JumpState.none;
+    }
 
     private void OnValidate()
     {
