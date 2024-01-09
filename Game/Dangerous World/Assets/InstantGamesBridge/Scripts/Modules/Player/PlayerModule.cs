@@ -84,7 +84,7 @@ namespace InstantGamesBridge.Modules.Player
                     var photosContainer = JsonUtility.FromJson<PhotosContainer>(json.SurroundWithKey("photos").FixBooleans().SurroundWithBraces());
                     return photosContainer.photos;
                 }
-                catch (Exception _)
+                catch (Exception e)
                 {
                     return new List<string>();
                 }

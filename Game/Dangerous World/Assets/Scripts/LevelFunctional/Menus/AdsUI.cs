@@ -38,16 +38,9 @@ public class AdsUI : MonoBehaviour, IInGameMenu
     public void ShowAds()
     {
         _gotReward = false;
-        Bridge.advertisement.ShowRewarded();
-        Bridge.advertisement.rewardedStateChanged += OnRewardedStateChanged;
         _inputActions.UI.Close.started -= Close;
-    }
-
-    private void OnAdsLoadError()
-    {
-        _btnShowAds.interactable = false;
-        _btnShowAds.GetComponent<TMP_Text>().text = "Ошибка";
-        _inputActions.UI.Close.started += Close;
+        Bridge.advertisement.rewardedStateChanged += OnRewardedStateChanged;
+        Bridge.advertisement.ShowRewarded();
     }
 
     private void OnRewardedStateChanged(RewardedState state)
@@ -57,18 +50,27 @@ public class AdsUI : MonoBehaviour, IInGameMenu
             Time.timeScale = 0;
             AudioComponent.Instance.Mute = true;
         }
+        else if (state == RewardedState.Rewarded) { _gotReward = true; }
         else if (state == RewardedState.Failed)
         {
+            Time.timeScale = 1;
             OnAdsLoadError();
             AudioComponent.Instance.Mute = false;
         }
-        else if (state == RewardedState.Rewarded) { _gotReward = true; }
         else if (state == RewardedState.Closed)
         {
             Time.timeScale = 1;
             if (_gotReward) { CloseWithReward(); }
+            else { OnAdsLoadError(); }
             AudioComponent.Instance.Mute = false;
         }
+    }
+
+    private void OnAdsLoadError()
+    {
+        _btnShowAds.interactable = false;
+        _btnShowAds.GetComponent<TMP_Text>().text = "Ошибка";
+        _inputActions.UI.Close.started += Close;
     }
 
     public void Close()
