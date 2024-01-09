@@ -8,7 +8,7 @@ public static class LevelLoader
 
     public static void LoadLevel(LevelIngameState levelIngameState)
     {
-        SceneLoader.Load(levelIngameState.LevelConfig.Id, SceneLoader.UseTransition.Both, true);
+        SceneLoader.Load(levelIngameState.LevelConfig.Id, SceneLoader.UseTransition.Both, false);
         SceneLoader.OnSceneLoad += OnLevelLoad;
         void OnLevelLoad()
         {

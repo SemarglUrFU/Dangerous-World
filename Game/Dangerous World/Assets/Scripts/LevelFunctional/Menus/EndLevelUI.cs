@@ -32,10 +32,14 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
     private Action MenuOpenAction;
     private bool _rewardWasUsed = false;
 
-    public void Initialize(InputActions inputActions, AdsUI adsUI, LifeCounter lifeCounter, CoinsCounter coinsCounter)
+    public void Initialize(InputActions inputActions, AdsUI adsUI, LifeCounter lifeCounter)
     {
         _inputActions = inputActions;
+#if UNITY_EDITOR
+        if (LevelLoader.Description != null) { _levelName.text = $"Уровень «{LevelLoader.Description.LevelConfig.Name}»"; }
+#else
         _levelName.text = $"Уровень «{LevelLoader.Description.LevelConfig.Name}»";
+#endif
         _menuBtn.onClick.AddListener(OpenLevelMenu);
         _adsUI = adsUI;
         _adsUI.OnCloseWithNoReward += OpenEndLevelMenu;
@@ -105,7 +109,7 @@ public class EndLevelUI : MonoBehaviour, IInGameMenu
 
     private void OpenLevelMenu()
     {
-        SceneLoader.Load(_levelMenu, SceneLoader.UseTransition.Both, true);
+        SceneLoader.Load(_levelMenu, SceneLoader.UseTransition.Both, false);
     }
     private void OpenLevelMenu(InputAction.CallbackContext ctx) => OpenLevelMenu();
 

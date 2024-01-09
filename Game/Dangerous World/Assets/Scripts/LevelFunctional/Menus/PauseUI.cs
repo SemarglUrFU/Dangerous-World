@@ -46,7 +46,7 @@ public class PauseUI : MonoBehaviour, IInGameMenu
 
     public void OpenLevelMenu()
     {
-        SceneLoader.Load(_levelMenu, SceneLoader.UseTransition.Both, true);
+        SceneLoader.Load(_levelMenu, SceneLoader.UseTransition.Both, false);
     }
 
     private void Close(InputAction.CallbackContext ctx) => Close();

@@ -26,7 +26,7 @@ public class LifeImage : MonoBehaviour
     {
         if (!_enabled) { return; }
         _enabled = false;
-        _image.sprite = _disableSprite;
+        _image.sprite = _image.sprite != null ? _image.sprite : _disableSprite;
     }
 
     private void OnValidate()

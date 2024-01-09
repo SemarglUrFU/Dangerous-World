@@ -13,7 +13,7 @@ public class FirstMenuBootstrap : MonoBehaviour
     private void Start()
     {
         _startButton.onClick.AddListener(
-            () => SceneLoader.Load(_next, SceneLoader.UseTransition.Both, true));
+            () => SceneLoader.Load(_next, SceneLoader.UseTransition.Both, false));
     }
 
     private void OnValidate()

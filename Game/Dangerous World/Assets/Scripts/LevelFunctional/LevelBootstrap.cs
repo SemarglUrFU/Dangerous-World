@@ -33,9 +33,7 @@ public class LevelBootstrap : MonoBehaviour
         _inGameUI.Initialize(lifeCounter, coinsCounter);
 
         _pauseUI.Initialize(inputActions);
-#if !UNITY_EDITOR
-        _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter, coinsCounter);
-#endif
+        _endLevelUI.Initialize(inputActions, _adsUI, lifeCounter);
         _inGameMenu.Initialize(inputActions, _inGameMenuTransition);
         _adsUI.Initialize(inputActions);
         lifeCounter.OnLifesOver += () =>
