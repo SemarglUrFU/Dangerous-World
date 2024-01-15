@@ -51,6 +51,7 @@ public class LevelMenu : MonoBehaviour
         _levelMenuIndicator.UpdateSelectedLevel(index);
         _levelMenuState.UpdateVisual(levelConfig.Name, levelConfig.Preview, IsLevelUnlocked(index), levelState.Points, levelConfig.Cost);
         _selectedLevel = index;
+        Prefs.SelectedLevel = index;
     }
 
     private void LoadLevel(int index)

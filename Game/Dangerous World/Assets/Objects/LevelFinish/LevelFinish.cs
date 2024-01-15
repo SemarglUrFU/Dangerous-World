@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,6 +25,7 @@ public class LevelFinish : MonoBehaviour
     {
         var stars = GetCurrentStars(_coinsCounter);
         LevelLoader.LevelPassed(stars);
+        Prefs.SelectedLevel++;
         _endLevel.Set(true, _coinsCounter, stars);
         _inGameMenu.OpenMenu(_endLevel);
     }

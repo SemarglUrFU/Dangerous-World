@@ -16,5 +16,5 @@ MonoBehaviour:
   _scene: 2
   _name: 2
   _cost: 4
-  _lifes: 7
+  _lifes: 9
   _preview: {fileID: 21300000, guid: ccad231bb0fe33e458c7c676f7d42797, type: 3}
